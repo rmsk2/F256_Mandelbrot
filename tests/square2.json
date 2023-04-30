@@ -1,0 +1,5 @@
+{
+    "Name": "square -1/4 = 1/16",
+    "TestDriverSource": "square.a",
+    "TestScript": "square2.lua"
+}

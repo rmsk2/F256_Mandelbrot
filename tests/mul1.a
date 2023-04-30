@@ -1,0 +1,16 @@
+.cpu "w65c02"
+
+* = $0800
+
+jmp start
+
+OPR_L
+.byte 0,0,0,0,0
+OPR_R
+.byte 0,0,0,0,0
+
+.include "fixed_point.asm"
+
+start
+    #callFunc mul32BitNormalized, OPR_L, OPR_R
+    brk

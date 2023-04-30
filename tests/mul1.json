@@ -1,0 +1,5 @@
+{
+    "Name": "-1 * 1 = -1",
+    "TestDriverSource": "mul1.a",
+    "TestScript": "mul1.lua"
+}

@@ -1,0 +1,15 @@
+.cpu "w65c02"
+
+* = $0800
+
+jmp start
+
+OPR_L
+.byte 0,0,0,0,0
+
+.include "fixed_point.asm"
+
+
+start
+    #callFuncMono square32BitNormalized, OPR_L
+    brk
