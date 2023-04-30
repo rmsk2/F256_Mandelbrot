@@ -281,7 +281,8 @@ mandelLoop
     jsr initMandel
     lda #3
     sta hires.backgroundColor
-    jsr hires.On
+    jsr hires.on
+    jsr hires.clearBitmap
 
 _loopUntilFinished
     jsr nextMandel
@@ -290,7 +291,7 @@ _loopUntilFinished
     bne _loopUntilFinished
 
     jsr waitForKey
-    jsr hires.Off
+    jsr hires.off
     
     jsr restoreEvents
     rts

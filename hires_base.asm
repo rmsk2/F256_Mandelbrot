@@ -23,7 +23,7 @@ ZP_GRAPHIC_PTR = $90
 ; This routine turns the bitmap mode on and clears the
 ; (hires) screen.
 ;--------------------------------------------------
-On
+on
     ; switch to I/O page 0 
     stz MMU_IO_CTRL
 
@@ -52,15 +52,13 @@ On
     sta VKY_MSTR_CTRL_0
     stz VKY_MSTR_CTRL_1
 
-    jsr clearBitmap
-
     rts
 
 
 ; --------------------------------------------------
 ; This routine turns the bitmap mode off again.
 ;--------------------------------------------------
-Off
+off
     lda #1
     sta VKY_MSTR_CTRL_0
     stz VKY_MSTR_CTRL_1
