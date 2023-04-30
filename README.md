@@ -17,3 +17,5 @@ files from the project directory.
 You will need the `64tass` macro assembler in your path in order to build the software. I use Ubuntu 22.04 on my development
 machine and I have not tested this software on any other operating system. The `64tass` version available in the Ubuntu repos
 works for this project.
+
+At the moment you can not change the section of the Mandelbrot set that is visualized. This may be added in the future.
