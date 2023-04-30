@@ -21,4 +21,4 @@ clean:
 	rm $(BINARY)
 	rm dist/$(BINARY)
 	rm dist/$(BASIC)
-	rm tests/bin/*
+	rm tests/bin/*.bin
