@@ -24,5 +24,5 @@ At the moment you can not change the section of the Mandelbrot set that is visua
 # A sidenote about performance
 
 The F256 version of this program needs for the calculation using the same parameters only 60% of the runtime of the Commander 
-X16 version (measured in the latest version of the emulator). As the F256 runs at 6.29 MHz and the X16 at 8 Mhz this speedup 
+X16 version (measured in the latest version of the emulator). As the F256 runs at 6.29 MHz and the X16 at 8 MHz this speedup 
 can be clearly attributed to the F256 math coprocessor.
