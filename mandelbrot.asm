@@ -5,6 +5,7 @@
 RES_X = 320
 RES_Y = 240
 
+PROG_START
 jmp mandelLoop
 
 .include "api.asm"

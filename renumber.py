@@ -46,6 +46,7 @@ if __name__ == "__main__":
 
     label_dict = parse_label_file(sys.argv[3])
     header_lines = ['rem "**** variable references ****"\n',
+                    f"progstart = ${label_dict['PROG_START']}\n", 
                     f"maxiter = ${label_dict['MAX_ITER']}\n", 
                     f"stepx = ${label_dict['STEP_X']}\n",
                     f"stepy = ${label_dict['STEP_Y']}\n",
