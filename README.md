@@ -23,8 +23,16 @@ works for this project.
 
 At the moment you can not change the section of the Mandelbrot set that is visualized. This may be added in the future. The
 bitmap graphics is stored at physical address $40000 and has a length of 320*240 = 76800 bytes. You could use 
-`bsave "apple.bin", $40000, 76800` to save the calculated picture.
+`bsave "apple.bin", $40000, 76800` to save the calculated picture. You can load the picture again using the following program
 
+```
+10 drive 1
+20 cursor off
+30 bitmap on: cls
+40 bload "apple.bin", $10000
+```
+
+You have to adapt the drive number and filename to the situation on your system.
 
 # A note about performance
 
