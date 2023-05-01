@@ -19,9 +19,14 @@ You will need the `64tass` macro assembler in your path in order to build the so
 machine and I have not tested this software on any other operating system. The `64tass` version available in the Ubuntu repos
 works for this project.
 
-At the moment you can not change the section of the Mandelbrot set that is visualized. This may be added in the future.
+# Additional info
 
-# A sidenote about performance
+At the moment you can not change the section of the Mandelbrot set that is visualized. This may be added in the future. The
+bitmap graphics is stored at physical address $40000 and has a length of 320*240 = 76800 bytes. You could use 
+`bsave "apple.bin", $40000, 76800` to save the calculated picture.
+
+
+# A note about performance
 
 The F256 version of this program needs for the calculation using the same parameters only 60% of the runtime of the Commander 
 X16 version (measured in the latest version of the emulator). As the F256 runs at 6.29 MHz and the X16 at 8 MHz this speedup 
