@@ -1,6 +1,7 @@
 MANDEL=mandelbrot.asm
 BINARY=mandel.prg
 BASIC=mandelbrot.bas
+BASIC_RAW=mandelbrot_raw.bas
 
 all: $(BINARY)
 
@@ -13,9 +14,9 @@ test:
 upload: $(BINARY)
 	sudo python3 fnxmgr.zip --port /dev/ttyUSB0 --binary $(BINARY) --address 2500
 
-publish: $(BINARY)
+publish: $(BINARY) $(BASIC_RAW)
 	cp $(BINARY) dist/
-	python3 renumber.py mandelbrot_raw.bas dist/mandelbrot.bas
+	python3 renumber.py $(BASIC_RAW) dist/$(BASIC)
 
 clean:
 	rm $(BINARY)
