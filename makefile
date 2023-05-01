@@ -15,7 +15,7 @@ upload: $(BINARY)
 
 publish: $(BINARY)
 	cp $(BINARY) dist/
-	cp $(BASIC) dist/
+	python3 renumber.py mandelbrot_raw.bas dist/mandelbrot.bas
 
 clean:
 	rm $(BINARY)
