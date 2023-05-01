@@ -4,5 +4,5 @@ until (iter > 0) & (iter <= 254)
 print "OK": print : print "Loading machine language program ..."
 bload "mandel.prg", $2500
 print "done"
-poke $290d, iter
+poke maxiter, iter
 call $2500
