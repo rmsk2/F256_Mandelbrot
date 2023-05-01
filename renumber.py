@@ -45,5 +45,12 @@ if __name__ == "__main__":
         sys.exit()
 
     label_dict = parse_label_file(sys.argv[3])
-    header_lines = [f"maxiter = ${label_dict['MAX_ITER']}\n"]
+    header_lines = ['rem "**** variable references ****"\n',
+                    f"maxiter = ${label_dict['MAX_ITER']}\n", 
+                    f"stepx = ${label_dict['STEP_X']}\n",
+                    f"stepy = ${label_dict['STEP_Y']}\n",
+                    f"initreal = ${label_dict['INIT_REAL']}\n",
+                    f"initimag = ${label_dict['INIT_IMAG']}\n",
+                    'rem "**** Program text ****"\n',
+                    'rem\n']
     renumber(sys.argv[1], sys.argv[2], header_lines)
