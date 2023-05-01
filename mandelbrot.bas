@@ -4,5 +4,5 @@
 90 print "OK": print : print "Loading machine language program ..."
 100 bload "mandel.prg", $2500
 110 print "done"
-120 poke $2910, iter
+120 poke $290d, iter
 130 call $2500

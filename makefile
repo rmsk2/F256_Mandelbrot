@@ -5,7 +5,7 @@ BASIC=mandelbrot.bas
 all: $(BINARY)
 
 mandel.prg: fixed_point.asm $(MANDEL) api.asm khelp.asm hires_base.asm
-	64tass -o $(BINARY) -b $(MANDEL)
+	64tass -o $(BINARY) -l labels.txt -b $(MANDEL)
 
 test:
 	6502profiler verifyall -c config.json
@@ -19,6 +19,7 @@ publish: $(BINARY)
 
 clean:
 	rm $(BINARY)
+	rm labels.txt
 	rm dist/$(BINARY)
 	rm dist/$(BASIC)
 	rm tests/bin/*.bin
