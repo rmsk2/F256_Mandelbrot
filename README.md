@@ -22,6 +22,11 @@ works for this project.
 
 ![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
 
+Some additional info about the screenshot. The pink square in the upper left corner is the cursor, which is not part of the
+picture. Additionally the program unfortunately does not run in the emulator. In order to create the screenshot I loaded the 
+precalculated image data in the emulator's RAM beginning at address $10000 and issued the command `bitmap on`. After that I took a
+screenshot of the emulator's window.
+
 # Additional info
 
 At the moment you can not change the section of the Mandelbrot set that is visualized. This may be added in the future. The
