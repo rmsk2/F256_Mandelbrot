@@ -6,8 +6,9 @@ device.
 
 In Basic change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` for an SD2IEC device with 
 device number 8) and type `load "MANDELBROT.BAS"` followed by `run`. The program then asks for the iteration depth to use.
-I use typically 24 but larger values give a more precise result but are slower. At an iteration depth of 24 the calculation 
-is finished after about 5 minutes. After that the program displays the finished picture while waiting for a key press.
+I use typically 24. Larger values give a more precise result but lead to longer calculation times. At an iteration depth 
+of 24 the calculation is finished after about 5 minutes. After that the program displays the finished picture while waiting 
+for a key press.
 
 The makefile target `make upload` can be used to upload the machine language part of the software to the memory of the F256 
 via a USB connection to the F256 debug port. The target address is $2500 and after the upload it can be started by `call $2500`. 
