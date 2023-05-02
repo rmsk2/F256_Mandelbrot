@@ -19,6 +19,8 @@ You will need the `64tass` macro assembler in your path in order to build the so
 machine and I have not tested this software on any other operating system. The `64tass` version available in the Ubuntu repos
 works for this project.
 
+![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
+
 # Additional info
 
 At the moment you can not change the section of the Mandelbrot set that is visualized. This may be added in the future. The
