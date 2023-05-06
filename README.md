@@ -11,7 +11,7 @@ of 24 the calculation is finished after about 5 minutes. After that the program 
 for a key press.
 
 The makefile target `make upload` can be used to upload the machine language part of the software to the memory of the F256 
-via a USB connection to the F256 debug port. The target address is $2500 and after the upload it can be started by `call $2500`. 
+via a USB connection to the F256 debug port. The target address is $2500 and after the upload it can be started by `call $3000`. 
 You may have to adapt the serial device. On my machine the F256 debug port appears as `/dev/ttyUSB0`. The makefile target 
 `make test` runs some simple tests using my [6502profiler](https://github.com/rmsk2/6502profiler) project. As usual use 
 `make clean` to delete all intermediate files from the project directory. 
@@ -27,20 +27,14 @@ picture. Additionally the program unfortunately does not run in the emulator. In
 precalculated image data in the emulator's RAM beginning at address $10000 and issued the command `bitmap on`. After that I took a
 screenshot of the emulator's window.
 
-# Additional info
+# Usage
 
-At the moment you can not change the section of the Mandelbrot set that is visualized. This may be added in the future. The
-bitmap graphics is stored at physical address $40000 and has a length of 320*240 = 76800 bytes. You could use 
-`bsave "apple.bin", $40000, 76800` to save the calculated picture. You can load the picture again using the following program
-
-```
-10 drive 1
-20 cursor off
-30 bitmap on: cls
-40 bload "apple.bin", $10000
-```
-
-You have to adapt the drive number and filename to the situation on your system.
+The BASIC program allows to either generate a picture or to load a picture. When generating a picture the section to be 
+visualized can be manually selected. You have to enter the real and imaginary part of the upper left corner of the 
+desired section in the complex plane. The format used for the numbers is the same as for my [C64](https://github.com/rmsk2/c64_mandelbrot)
+and  [X16](https://github.com/rmsk2/X16_mandelbrot) versions of this program. You also have to enter the zoom level, which in essence
+determines the size of the visualized section. Try for instance real part `00.4e6604` and imaginary part `00.641bc1` at a zoom
+level of 4. After the calculation is finished the program asks if the resulting picture should be saved or not.
 
 # A note about performance
 
