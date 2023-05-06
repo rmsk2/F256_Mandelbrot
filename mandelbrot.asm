@@ -1,6 +1,6 @@
 .cpu "w65c02"
 
-*=$2500
+*=$3000
 
 RES_X = 320
 RES_Y = 240
@@ -30,6 +30,9 @@ MAX_ITER
 
 ; The number of iterations used for the current point
 NUM_ITER
+.byte 0
+
+ZOOM_LEVEL
 .byte 0
 
 ; **************************************************
@@ -114,7 +117,7 @@ DEFAULT_STEP_X
 
 ; Y offset to move in complex plane for next line of default picture
 DEFAULT_STEP_Y
-.byte 1, $5C, $8F, $02, $00
+.byte 1, $11, $71, $02, $00
 
 ; real part of upper left point of default picture
 DEFAULT_INIT_REAL
@@ -122,7 +125,7 @@ DEFAULT_INIT_REAL
 
 ; imaginary part of upper left point of picture default picture
 DEFAULT_INIT_IMAG
-.byte 0, 0, 0, 0, 1
+.byte 0, 0, 0, $25, 1
 ; **************************************************
 
 
@@ -229,6 +232,9 @@ _continueMandelbrot
 _endMandelbrot
     rts
 
+TEMP_ZOOM
+.byte 0
+
 ; --------------------------------------------------
 ; This routine initialises the data needed for computation
 ;
@@ -238,10 +244,27 @@ initMandel
     #load16BitImmediate 0, COUNT_X
     lda #0
     sta COUNT_Y
-    ; reset complex numbers
+
+    ; reset complex numbers    
     #callFunc move32Bit, INIT_REAL, REAL
     #callFunc move32Bit, INIT_IMAG, IMAG
 
+    ; set zoom level
+    #callFunc move32Bit, DEFAULT_STEP_X, STEP_X
+    #callFunc move32Bit, DEFAULT_STEP_Y, STEP_Y
+
+    lda ZOOM_LEVEL
+    sta TEMP_ZOOM
+_moreZoom
+    lda TEMP_ZOOM
+    beq _doneZoomLevel
+
+    #callFuncMono halve32bit, STEP_X
+    #callFuncMono halve32bit, STEP_Y
+
+    dec TEMP_ZOOM
+    bra _moreZoom
+_doneZoomLevel
     rts
 
 

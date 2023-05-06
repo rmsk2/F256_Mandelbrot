@@ -19,7 +19,7 @@ def parse_label_file(label_file):
         
     return res
 
-def renumber(file_in, file_out, header_lines):
+def renumber(file_in, file_out, header_lines, for_upload):
     lines_in = []
     with open(file_in, "r") as f_in:
         lines_in = f_in.readlines()
@@ -36,7 +36,11 @@ def renumber(file_in, file_out, header_lines):
         line_number += LINE_STEP
 
     with open(file_out, "w") as f_out:
-        f_out.writelines(txt_with_numbers)
+        f_out.writelines(txt_with_numbers)        
+    
+    if for_upload:
+        with open(file_out, "ab") as f_out:
+            f_out.write(bytes([10, 145]))
         
 
 if __name__ == "__main__":
@@ -48,10 +52,12 @@ if __name__ == "__main__":
     header_lines = ['rem "**** variable references ****"\n',
                     f"progstart = ${label_dict['PROG_START']}\n", 
                     f"maxiter = ${label_dict['MAX_ITER']}\n", 
-                    f"stepx = ${label_dict['STEP_X']}\n",
-                    f"stepy = ${label_dict['STEP_Y']}\n",
                     f"initreal = ${label_dict['INIT_REAL']}\n",
                     f"initimag = ${label_dict['INIT_IMAG']}\n",
+                    f"zoomlevel = ${label_dict['ZOOM_LEVEL']}\n",
+                    f"defreal = ${label_dict['DEFAULT_INIT_REAL']}\n",
+                    f"defimag = ${label_dict['DEFAULT_INIT_IMAG']}\n",
+
                     'rem "**** Program text ****"\n',
                     'rem\n']
-    renumber(sys.argv[1], sys.argv[2], header_lines)
+    renumber(sys.argv[1], sys.argv[2], header_lines, True)
