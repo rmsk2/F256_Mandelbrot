@@ -6,7 +6,11 @@ input "(G)enerate or (L)oad a picture?: "; inp$
 
 if inp$ = "G"
     print "Loading machine language program ..."
-    bload "mandel.prg", progstart
+    try bload "mandel.prg", progstart to rc
+    if rc <> 0
+        print "Load error"
+        end
+    endif
     print "done"
 
     print "Enter real and imaginary part of left upper corner"
@@ -88,9 +92,14 @@ proc loadpicture()
     input "Filename: "; filename$
     cursor off
     bitmap on: cls: bitmap clear 2
-    bload filename$, $10000
-    waitforkeypress()
-    bitmap off
+    try bload filename$, $10000 to rc
+    if rc = 0
+        waitforkeypress()
+        bitmap off
+    else
+        bitmap off
+        print "File not found"
+    endif
     cursor on
 endproc
 rem
