@@ -13,7 +13,7 @@ if inp$ = "G"
     endif
     print "done"
 
-    print "Enter real and imaginary part of left upper corner"
+    print "Enter real and imaginary part of upper left corner"
     input "Real part (return for default)     : "; hfloat$
     if hfloat$ <> ""
         converthexfloat(hfloat$)
@@ -90,17 +90,18 @@ rem
 proc loadpicture()
     local filename$
     input "Filename: "; filename$
-    cursor off
-    bitmap on: cls: bitmap clear 2
+    print "Loading ...";
     try bload filename$, $10000 to rc
     if rc = 0
-        waitforkeypress()
-        bitmap off
-    else
-        bitmap off
-        print "File not found"
+        print " done"
+        cls
+        cursor off
+        bitmap on
+        waitforkeypress()        
+        clearscreen()
+    else                
+        print " error"
     endif
-    cursor on
 endproc
 rem
 rem "Wait for key press"
@@ -165,4 +166,13 @@ proc converthexfloat(v$)
     hexfloat(2) = resbyte
     strtobyte(mid$(val$, 8, 2))
     hexfloat(1) = resbyte
+endproc
+
+proc clearscreen()
+    cursor on
+    bitmap off
+    poke $d000,1    
+    print chr$(128+9)
+    print chr$(144+2)
+    print chr$(12)
 endproc
