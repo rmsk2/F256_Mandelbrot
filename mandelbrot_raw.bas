@@ -9,7 +9,8 @@ if inp$ = "G"
     bload "mandel.prg", progstart
     print "done"
 
-    input "Enter real part of left upper corner (return for default): "; hfloat$
+    print "Enter real and imaginary part of left upper corner"
+    input "Real part (return for default)     : "; hfloat$
     if hfloat$ <> ""
         converthexfloat(hfloat$)
     else
@@ -26,7 +27,7 @@ if inp$ = "G"
     poke initreal+3, hexfloat(3)
     poke initreal+4, hexfloat(4)
 
-    input "Enter imaginary part of left upper corner (return for default): "; hfloat$
+    input "Imaginary part (return for default): "; hfloat$
     if hfloat$ <> ""
         converthexfloat(hfloat$)
     else
@@ -44,7 +45,7 @@ if inp$ = "G"
     poke initimag+4, hexfloat(4)
 
     repeat
-        input "Zoom level (min 0, max 16): "; zl
+        input "Zoom level (min 0, max 16)         : "; zl
     until (zl >= 0) & (zl <= 16)    
     poke zoomlevel, zl
 
@@ -73,7 +74,7 @@ rem "Calculate picture"
 rem 
 proc generatepicture()
     repeat
-        input "Iteration depth (min 1, max 254): "; iter
+        input "Iteration depth (min 1, max 254)   : "; iter
     until (iter > 0) & (iter <= 254)
     print "OK": 
     poke maxiter, iter
@@ -84,8 +85,8 @@ rem "Load picture"
 rem 
 proc loadpicture()
     local filename$
-    cursor off
     input "Filename: "; filename$
+    cursor off
     bitmap on: cls: bitmap clear 2
     bload filename$, $10000
     waitforkeypress()
