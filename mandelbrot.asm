@@ -373,3 +373,67 @@ _draw
     sta hires.setPixelArgs.col
     jsr hires.setPixel
     rts
+
+
+; --------------------------------------------------
+; This routine resets the top left corner to use in the complex
+; plane and the stepping offsets in x and y direction to the default
+; values for the iconic mandelset picture in hires mode
+;
+; resetParameters has no return value. 
+; --------------------------------------------------
+resetParameters
+    #callFunc move32Bit, DEFAULT_STEP_X, STEP_X
+    #callFunc move32Bit, DEFAULT_STEP_Y, STEP_Y 
+    #callFunc move32Bit, DEFAULT_INIT_REAL, INIT_REAL
+    #callFunc move32Bit, DEFAULT_INIT_IMAG, INIT_IMAG       
+    rts
+
+
+increaseZoomLevel
+    #callFuncMono halve32Bit, STEP_X
+    #callFuncMono halve32Bit, STEP_Y
+    inc ZOOM_LEVEL
+    rts
+
+derive .namespace
+TEMP_X
+.byte 0,0
+TEMP_Y
+.byte 0
+.endnamespace
+; --------------------------------------------------
+; This routine determines the point in the complex plane for which the pixel
+; at COUNT_X and COUNT_Y stands
+;
+; deriveParametersFromPixel has no return value. As a side effect it changes
+; INIT_REAL and INIT_IMAG 
+; --------------------------------------------------
+deriveParametersFromPixel
+    #callFunc move32Bit, INIT_IMAG, IMAG
+    #callFunc move32Bit, INIT_REAL, REAL
+
+    #load16BitImmediate 0, derive.TEMP_X
+_loopDeriveX
+    #cmp16Bit COUNT_X, derive.TEMP_X
+    beq _procYCoord
+    #callFunc add32Bit, STEP_X, REAL
+    #inc16Bit derive.TEMP_X
+    bra _loopDeriveX
+
+_procYCoord
+    lda #0
+    sta derive.TEMP_Y
+_loopDeriveY
+    lda derive.TEMP_Y
+    cmp COUNT_Y
+    beq _deriveDone
+    #callFunc add32Bit, STEP_Y, IMAG
+    inc derive.TEMP_Y
+    bra _loopDeriveY
+
+_deriveDone
+    #callFunc move32Bit, IMAG, INIT_IMAG
+    #callFunc move32Bit, REAL, INIT_REAL
+
+    rts

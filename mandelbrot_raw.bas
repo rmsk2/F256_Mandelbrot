@@ -90,17 +90,17 @@ rem
 proc loadpicture()
     local filename$
     input "Filename: "; filename$
-    print "Loading ...";
+    cls
+    cursor off
+    bitmap on
+    bitmap clear 2
     try bload filename$, $10000 to rc
     if rc = 0
-        print " done"
-        cls
-        cursor off
-        bitmap on
         waitforkeypress()        
         clearscreen()
-    else                
-        print " error"
+    else 
+        clearscreen()               
+        print "Load error"
     endif
 endproc
 rem
