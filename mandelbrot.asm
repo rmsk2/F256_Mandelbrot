@@ -32,11 +32,9 @@ MAX_ITER
 NUM_ITER
 .byte 0
 
-ZOOM_LEVEL
-.byte 0
 
 ; **************************************************
-; The following 4 values have to be contiguously laid out
+; The following 5 values have to be contiguously laid out
 ; in memory. The load and save routines expect this.
 
 ; x offset to move in complex plane for next point
@@ -54,6 +52,10 @@ INIT_REAL
 ; imaginary part of upper left point of picture
 INIT_IMAG
 .byte 0, 0, 0, $25, 1
+
+ZOOM_LEVEL
+.byte 0
+
 ; **************************************************
 
 ; Number of points (resolution) in x direction
@@ -249,22 +251,8 @@ initMandel
     #callFunc move32Bit, INIT_REAL, REAL
     #callFunc move32Bit, INIT_IMAG, IMAG
 
-    ; set zoom level
-    #callFunc move32Bit, DEFAULT_STEP_X, STEP_X
-    #callFunc move32Bit, DEFAULT_STEP_Y, STEP_Y
+    jsr setZoomLevel
 
-    lda ZOOM_LEVEL
-    sta TEMP_ZOOM
-_moreZoom
-    lda TEMP_ZOOM
-    beq _doneZoomLevel
-
-    #callFuncMono halve32bit, STEP_X
-    #callFuncMono halve32bit, STEP_Y
-
-    dec TEMP_ZOOM
-    bra _moreZoom
-_doneZoomLevel
     rts
 
 
@@ -377,31 +365,56 @@ _draw
 
 ; --------------------------------------------------
 ; This routine resets the top left corner to use in the complex
-; plane and the stepping offsets in x and y direction to the default
-; values for the iconic mandelset picture in hires mode
+; plane for the iconic mandelset picture in hires mode
 ;
 ; resetParameters has no return value. 
 ; --------------------------------------------------
 resetParameters
-    #callFunc move32Bit, DEFAULT_STEP_X, STEP_X
-    #callFunc move32Bit, DEFAULT_STEP_Y, STEP_Y 
     #callFunc move32Bit, DEFAULT_INIT_REAL, INIT_REAL
     #callFunc move32Bit, DEFAULT_INIT_IMAG, INIT_IMAG       
     rts
 
 
-increaseZoomLevel
-    #callFuncMono halve32Bit, STEP_X
-    #callFuncMono halve32Bit, STEP_Y
-    inc ZOOM_LEVEL
+resetStepping
+    #callFunc move32Bit, DEFAULT_STEP_X, STEP_X
+    #callFunc move32Bit, DEFAULT_STEP_Y, STEP_Y 
+    rts
+
+
+resetAll
+    jsr resetParameters
+    jsr resetStepping
+    rts
+
+
+zoomIn .namespace
+ZOOM_TEMP .byte 0
+.endnamespace
+; --------------------------------------------------
+; This routine sets STEP_X and STEP_Y according to the zoom level
+; stored in ZOOM_LEVEL.
+;
+; setZoomLevel has no return value. As a side effect it changes
+; STEP_x and STEP_Y. 
+; --------------------------------------------------
+setZoomLevel
+    stz zoomIn.ZOOM_TEMP
+    jsr resetStepping    
+_loopZoom
+    lda ZOOM_LEVEL
+    cmp zoomIn.ZOOM_TEMP
+    beq _zoomDone
+    #callFuncMono halve32bit, STEP_X
+    #callFuncMono halve32bit, STEP_Y
+    inc zoomIn.ZOOM_TEMP
+    bra _loopZoom
+_zoomDone    
     rts
 
 
 derive .namespace
-TEMP_X
-.byte 0,0
-TEMP_Y
-.byte 0
+TEMP_X .byte 0, 0
+TEMP_Y .byte 0
 .endnamespace
 ; --------------------------------------------------
 ; This routine determines the point in the complex plane for which the pixel
