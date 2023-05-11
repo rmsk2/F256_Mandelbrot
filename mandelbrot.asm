@@ -396,6 +396,7 @@ increaseZoomLevel
     inc ZOOM_LEVEL
     rts
 
+
 derive .namespace
 TEMP_X
 .byte 0,0
