@@ -15,6 +15,14 @@ print "done"
 input "(G)enerate or (L)oad a picture?: "; inp$
 
 if inp$ = "G"
+    docalc()
+else
+    loadpicture()
+endif
+cursor on
+end
+
+proc docalc()
     print "Enter real and imaginary part of upper left corner"
     input "Real part (return for default)     : "; hfloat$
     if hfloat$ <> ""
@@ -64,11 +72,7 @@ if inp$ = "G"
     endif
     print "Done"
     printparams("Parameters used:")    
-else
-    loadpicture()
-endif
-cursor on
-end
+endproc
 
 proc savepicture()
     local filename$
