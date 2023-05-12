@@ -1,18 +1,20 @@
-bitmapaddr = $40000
+bitmapaddr = $10000
 dim hexfloat(5)
 resbyte = 0
 resnibble = 0
+hexchars$ = "0123456789abcdef"
+
+print "Loading machine language program ..."
+try bload "mandel.prg", progstart to rc
+if rc <> 0
+    print "Load error"
+    end
+endif
+print "done"
+
 input "(G)enerate or (L)oad a picture?: "; inp$
 
 if inp$ = "G"
-    print "Loading machine language program ..."
-    try bload "mandel.prg", progstart to rc
-    if rc <> 0
-        print "Load error"
-        end
-    endif
-    print "done"
-
     print "Enter real and imaginary part of upper left corner"
     input "Real part (return for default)     : "; hfloat$
     if hfloat$ <> ""
@@ -23,6 +25,7 @@ if inp$ = "G"
         hexfloat(2) = peek(defreal+2)
         hexfloat(3) = peek(defreal+3)
         hexfloat(4) = peek(defreal+4)
+        print "Using                              : "; : printhexfloat(defreal)
     endif
     
     poke initreal, hexfloat(0)
@@ -40,6 +43,7 @@ if inp$ = "G"
         hexfloat(2) = peek(defimag+2)
         hexfloat(3) = peek(defimag+3)
         hexfloat(4) = peek(defimag+4)
+        print "Using                              : "; : printhexfloat(defimag)
     endif
     
     poke initimag, hexfloat(0)
@@ -55,27 +59,24 @@ if inp$ = "G"
 
     generatepicture()
     input "Save picture (y/n)? "; inp$
-    if inp$ = "y" 
+    if inp$ <> "n" 
         savepicture()
     endif
-    print "done"
+    print "Done"
+    printparams("Parameters used:")    
 else
     loadpicture()
 endif
 cursor on
 end
-rem
-rem "Save picture"
-rem 
+
 proc savepicture()
     local filename$
     input "Filename: "; filename$
-    bsave filename$, bitmapaddr, 320*240
-    print "Done!"
+    memcopy paramaddr, paramlen to bitmapaddr+320*240
+    bsave filename$, bitmapaddr, 320*240 + paramlen
 endproc
-rem
-rem "Calculate picture"
-rem 
+
 proc generatepicture()
     repeat
         input "Iteration depth (min 1, max 254)   : "; iter
@@ -84,37 +85,38 @@ proc generatepicture()
     poke maxiter, iter
     call progstart
 endproc
-rem
-rem "Load picture"
-rem 
+
 proc loadpicture()
     local filename$
     input "Filename: "; filename$
     cls
     cursor off
+    bitmap at bitmapaddr
     bitmap on
     bitmap clear 2
-    try bload filename$, $10000 to rc
+    try bload filename$, bitmapaddr to rc
     if rc = 0
+        memcopy bitmapaddr+320*240, paramlen to paramaddr
         waitforkeypress()        
         clearscreen()
+        printparams("Parameters used:")
+        print
+        input "Zoom into picture (y/n)? "; inp$
+        if inp$ <> "n"
+            zoomin()
+        endif
     else 
         clearscreen()               
         print "Load error"
     endif
 endproc
-rem
-rem "Wait for key press"
-rem 
+ 
 proc waitforkeypress()
     repeat
        key$ = inkey$() 
     until key$ <> ""
 endproc
 
-rem
-rem "Convert string to nibble"
-rem 
 proc strtonibble(n$)
     local code
     code = asc(left$(n$,1))
@@ -129,9 +131,7 @@ proc strtonibble(n$)
         endif
     endif
 endproc
-rem
-rem "Convert hex string to byte"
-rem 
+ 
 proc strtobyte(s$)
     local b
     strtonibble(left$(s$, 1))    
@@ -139,9 +139,7 @@ proc strtobyte(s$)
     strtonibble(right$(s$, 1))
     resbyte = b + resnibble
 endproc
-rem
-rem "Convert hexfloat"
-rem 
+
 proc converthexfloat(v$)
     local val$
     val$ = v$
@@ -175,4 +173,49 @@ proc clearscreen()
     print chr$(128+9)
     print chr$(144+2)
     print chr$(12)
+endproc
+
+proc printhexbyte(b)
+    local nibble
+    nibble = peek(b) \ 16
+    print mid$(hexchars$, nibble+1, 1);
+    nibble = peek(b) % 16
+    print mid$(hexchars$, nibble+1, 1);
+endproc
+
+proc printhexfloat(addr)
+    local sign$, i
+    sign$ = " "
+    if peek(addr) <> 0
+        sign$ = "-"
+    endif
+    print sign$; 
+    printhexbyte(addr+4)
+    print ".";
+    for i = 3 downto 1
+        printhexbyte(addr+i)
+    next
+    print 
+endproc
+
+proc printparams(s$)
+    print s$
+    print "==============="
+    print "Real part      : ";: printhexfloat(initreal)
+    print "Imaginary part : ";: printhexfloat(initimag)
+    print "Zoom level     :  ";: print peek(zoomlevel)
+endproc
+
+proc zoomin()
+    rem "make zoom stuff"
+    printparams("New parameters")
+
+    input "Calculate picture with new values (y/n)? "; inp$
+    if inp$ <> "n"
+        generatepicture()
+        input "Save picture (y/n)? "; inp$
+        if inp$ <> "n" 
+            savepicture()
+        endif
+    endif
 endproc

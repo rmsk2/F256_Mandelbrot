@@ -14,7 +14,7 @@ BITMAP_0_ADDR_HI = $D103
 BITMAP_1_ENABLE = $D108
 BITMAP_2_ENABLE = $D110
 
-BITMAP_0_MEM = $40000
+BITMAP_0_MEM = $10000
 BITMAP_WINDOW = $6000
 ZP_GRAPHIC_PTR = $90
 
@@ -100,7 +100,7 @@ strSetPixelArgs .struct
 x               .word 0
 y               .byte 0
 col             .byte 0
-                .endstruct
+.endstruct
 
 setPixelArgs .dstruct strSetPixelArgs
 

@@ -60,7 +60,9 @@ if __name__ == "__main__":
                     f"setzoom = ${label_dict['setZoomLevel']}\n",
                     f"derive = ${label_dict['deriveParametersFromPixel']}\n",
                     f"xpos = ${label_dict['COUNT_X']}\n",
-                    f"ypos = ${label_dict['COUNT_Y']}\n",                    
+                    f"ypos = ${label_dict['COUNT_Y']}\n",
+                    f"paramlen = ${label_dict['PIC_PARAMS_LEN']}\n",
+                    f"paramaddr = ${label_dict['PIC_PARAMS']}\n",
                     'rem "**** Program text ****"\n',
                     'rem\n']
     renumber(sys.argv[1], sys.argv[2], header_lines, True)

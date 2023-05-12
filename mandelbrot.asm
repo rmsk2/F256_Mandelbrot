@@ -12,14 +12,6 @@ jmp mandelLoop
 .include "fixed_point.asm"
 .include "hires_base.asm"
 
-; ----------------------------
-PLOT_FUNC_VECTOR
-.byte <decideToSetPoint, >decideToSetPoint
-
-
-drawPoint
-    jmp (PLOT_FUNC_VECTOR)
-
 ; --------------------------------------------------
 ; values settable/usable by callers
 ; --------------------------------------------------
@@ -36,7 +28,8 @@ NUM_ITER
 ; **************************************************
 ; The following 5 values have to be contiguously laid out
 ; in memory. The load and save routines expect this.
-
+PIC_PARAMS
+PIC_PARAMS_LEN = $15
 ; x offset to move in complex plane for next point
 STEP_X
 .byte 0, $66, $66, $02, $00
@@ -269,7 +262,7 @@ nextMandel
     lda COUNT_Y
     sta PLOT_POS_Y
     jsr calcOneMandelbrotSequence
-    jsr drawPoint
+    jsr decideToSetPoint
     ; REAL <= STEP_X + REAL
     #callFunc add32Bit, STEP_X, REAL
     #inc16Bit COUNT_X
