@@ -4,13 +4,7 @@ resbyte = 0
 resnibble = 0
 hexchars$ = "0123456789abcdef"
 
-print "Loading machine language program ..."
-try bload "mandel.prg", progstart to rc
-if rc <> 0
-    print "Load error"
-    end
-endif
-print "done"
+loadmlprog() : print
 
 input "(G)enerate or (L)oad a picture?: "; inp$
 
@@ -222,4 +216,14 @@ proc zoomin()
             savepicture()
         endif
     endif
+endproc
+
+proc loadmlprog()
+    print "Loading machine language program ...";
+    try bload "mandel.prg", progstart to rc
+    if rc <> 0
+        print "Load error"
+        end
+    endif
+    print " done"
 endproc
