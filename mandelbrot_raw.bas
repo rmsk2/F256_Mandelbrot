@@ -3,6 +3,22 @@ dim hexfloat(5)
 resbyte = 0
 resnibble = 0
 hexchars$ = "0123456789abcdef"
+dim zoomx(5)
+dim zoomy(5)
+
+zoomx(0) = 80-1
+zoomx(1) = 40-1
+zoomx(2) = 20-1
+zoomx(3) = 10-1
+zoomx(4) = 5-1
+
+zoomy(0) = 60-1
+zoomy(1) = 30-1
+zoomy(2) = 15-1
+zoomy(3) = 8-1
+zoomy(4) = 4-1
+
+rem "changezoomlevel(0)"
 
 loadmlprog() : print
 
@@ -90,12 +106,17 @@ proc loadpicture()
         memcopy bitmapaddr+320*240, paramlen to paramaddr
         waitforkeypress()        
         clearscreen()
-        printparams("Parameters used:")
-        print
-        input "Zoom into picture (y/n)? "; inp$
-        if inp$ <> "n"
-            zoomin()
-        endif
+        printparams("Parameters used:"): print
+
+        if peek(zoomlevel) >= 16
+            print "Maximum zoom level reached."
+            end
+        else
+            input "Zoom into picture (y/n)? "; inp$
+            if inp$ <> "n"
+                zoomin()
+            endif
+        endif 
     else 
         clearscreen()               
         print "Load error"
@@ -198,7 +219,7 @@ proc printparams(s$)
 endproc
 
 proc zoomin()
-    rem "make zoom stuff"
+    changezoomlevel()
     printparams("New parameters")
 
     input "Calculate picture with new values (y/n)? "; inp$
@@ -219,4 +240,97 @@ proc loadmlprog()
         end
     endif
     print " done"
+endproc
+
+proc callrect(x, y, w, h, c, o)
+      poke txtx, x
+      poke txty, y
+      poke lenx, w
+      poke leny, h
+      poke txtcol, c
+      poke txtovwr, o
+      call txtrec
+endproc
+
+proc callclear(x, y, w, h, c, o)
+      poke txtx, x
+      poke txty, y
+      poke lenx, w
+      poke leny, h
+      poke txtcol, c
+      poke txtovwr, o
+      call clrtxtrec
+endproc
+
+proc changezoomlevel(currentzoom)
+    local posy, posy, zoomdelta, width, height, key$, done
+    posx = 0
+    posy = 0
+    zoomdelta = 1
+    width = zoomx(zoomdelta)
+    height = zoomy(zoomdelta)
+    done = 0
+
+    callrect(posx, posy, width, height, $92, 0)
+    
+    repeat
+        bitmap on
+        repeat
+            key$ = inkey$()
+        until key$ <> ""
+
+        if (key$ = chr$(16)) & (posy > 0)
+            callclear(posx, posy, width, height, $92, 0)
+            posy = posy -1
+            callrect(posx, posy, width, height, $92, 0)
+        endif
+
+        if (key$ = chr$(14)) & (posy < 59)
+            callclear(posx, posy, width, height, $92, 0)
+            posy = posy + 1
+            callrect(posx, posy, width, height, $92, 0)
+        endif
+
+        if (key$ = chr$(2)) & (posx > 0)
+            callclear(posx, posy, width, height, $92, 0)
+            posx = posx - 1
+            callrect(posx, posy, width, height, $92, 0)
+
+        endif
+
+        if (key$ = chr$(6)) & (posx < 79)
+            callclear(posx, posy, width, height, $92, 0)
+            posx = posx + 1
+            callrect(posx, posy, width, height, $92, 0)
+        endif
+
+        if (key$ = chr$(13))
+            callclear(posx, posy, width, height, $92, 0)
+            done = -1
+        endif
+
+        if (key$ = "q")
+            callclear(posx, posy, width, height, $92, 0)
+            done = -1
+        endif
+
+        if (key$ = "i" ) & ((currentzoom + zoomdelta) < 16) & (zoomdelta < 4)
+            callclear(posx, posy, width, height, $92, 0)
+            zoomdelta = zoomdelta + 1
+            width = zoomx(zoomdelta)
+            height = zoomy(zoomdelta)
+            callrect(posx, posy, width, height, $92, 0)                
+        endif
+
+        if (key$ = "o") & (zoomdelta > 0)
+            callclear(posx, posy, width, height, $92, 0)
+            zoomdelta = zoomdelta - 1
+            width = zoomx(zoomdelta)
+            height = zoomy(zoomdelta)
+            callrect(posx, posy, width, height, $92, 0)                
+        endif
+    until done
+
+    bitmap off
+    poke $d000,1
 endproc
