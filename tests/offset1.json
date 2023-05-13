@@ -1,0 +1,5 @@
+{
+    "Name": "Test offset calculation",
+    "TestDriverSource": "offset1.a",
+    "TestScript": "offset1.lua"
+}

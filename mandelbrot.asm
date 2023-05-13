@@ -9,8 +9,10 @@ PROG_START
 jmp mandelLoop
 
 .include "api.asm"
+.include "zeropage.asm"
 .include "fixed_point.asm"
 .include "hires_base.asm"
+.include "txtdraw.asm"
 
 ; --------------------------------------------------
 ; values settable/usable by callers
@@ -304,7 +306,8 @@ _loopUntilFinished
 .include "khelp.asm"
 
 ; --------------------------------------------------
-; This routine waits for a key press event from the kernel
+; This routine waits for a key press event from the kernel and returns
+; the ASCII code of the pressed key in the accu.
 ; --------------------------------------------------
 waitForKey
     ; Peek at the queue to see if anything is pending
@@ -319,7 +322,11 @@ waitForKey
     beq _done
     bra waitForKey
 _done
-    rts  
+    lda myEvent.key.flags 
+    and #myEvent.key.META
+    bne waitForKey
+    lda myEvent.key.ascii
+    rts 
 
 PLOT_POS_X
 .byte 0,0

@@ -7,6 +7,7 @@ jmp start
 OPR_L
 .byte 0,0,0,0,0
 
+.include "zeropage.asm"
 .include "fixed_point.asm"
 
 

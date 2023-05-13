@@ -1,16 +1,4 @@
-; zero page
-ARITH_SCRATCH1 = $90
-ARITH_SCRATCH2 = $91
-ARITH_SCRATCH3 = $92
-ARITH_SCRATCH4 = $93
-LOOKUP_SCRATCH1 = $94
-LOOKUP_SCRATCH2 = $95
-LOOKUP_SCRATCH3 = $96
-;COUNT_L = $97
-;COUNT_R = $98
-HELP_MUL = $99
-TEMP_MUL = $9A           ; 8 bytes
-LEFT_GREATER_EQUAL_RIGHT = $A2
+
 
 
 ; --------------------------------------------------

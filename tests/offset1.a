@@ -1,0 +1,17 @@
+.cpu "w65c02"
+
+* = $4000
+
+jmp tstStart
+
+RESULT .byte 0, 0
+
+.include "zeropage.asm"
+.include "fixed_point.asm"
+.include "txtdraw.asm"
+
+tstStart
+    stx RECT_PARAMS.xpos
+    jsr txtdraw.calcStartOffset
+    #move16Bit txtdraw.OFFSET, RESULT
+    brk

@@ -9,6 +9,7 @@ OPR_L
 OPR_R
 .byte 0,0,0,0,0
 
+.include "zeropage.asm"
 .include "fixed_point.asm"
 
 start

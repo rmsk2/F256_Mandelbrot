@@ -16,7 +16,6 @@ BITMAP_2_ENABLE = $D110
 
 BITMAP_0_MEM = $10000
 BITMAP_WINDOW = $6000
-ZP_GRAPHIC_PTR = $90
 
 
 ; --------------------------------------------------
@@ -35,7 +34,7 @@ on
     stz BITMAP_1_ENABLE
     stz BITMAP_2_ENABLE
 
-    ; set address of bitmap 0 memory, i.e $40000
+    ; set address of bitmap 0 memory, i.e BITMAP_0_MEM
     lda #<BITMAP_0_MEM
     sta BITMAP_0_ADDR_LOW
     lda #>BITMAP_0_MEM

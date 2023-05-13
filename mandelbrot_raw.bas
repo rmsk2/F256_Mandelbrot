@@ -46,7 +46,7 @@ proc docalc()
     for i = 0 to 4
         poke initimag+i, hexfloat(i)
     next
-    
+
     repeat
         input "Zoom level (min 0, max 16)         : "; zl
     until (zl >= 0) & (zl <= 16)    
@@ -57,7 +57,7 @@ proc docalc()
     if inp$ <> "n" 
         savepicture()
     endif
-    print "Done"
+    print "Done": print
     printparams("Parameters used:")    
 endproc
 
