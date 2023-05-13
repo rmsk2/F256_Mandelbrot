@@ -17,43 +17,36 @@ cursor on
 end
 
 proc docalc()
+    local i
     print "Enter real and imaginary part of upper left corner"
     input "Real part (return for default)     : "; hfloat$
     if hfloat$ <> ""
         converthexfloat(hfloat$)
     else
-        hexfloat(0) = peek(defreal)
-        hexfloat(1) = peek(defreal+1)
-        hexfloat(2) = peek(defreal+2)
-        hexfloat(3) = peek(defreal+3)
-        hexfloat(4) = peek(defreal+4)
+        for i = 0 to 4
+            hexfloat(i) = peek(defreal+i)
+        next
         print "Using                              : "; : printhexfloat(defreal)
     endif
-    
-    poke initreal, hexfloat(0)
-    poke initreal+1, hexfloat(1)
-    poke initreal+2, hexfloat(2)
-    poke initreal+3, hexfloat(3)
-    poke initreal+4, hexfloat(4)
 
+    for i = 0 to 4
+        poke initreal+i, hexfloat(i)
+    next    
+    
     input "Imaginary part (return for default): "; hfloat$
     if hfloat$ <> ""
         converthexfloat(hfloat$)
     else
-        hexfloat(0) = peek(defimag)
-        hexfloat(1) = peek(defimag+1)
-        hexfloat(2) = peek(defimag+2)
-        hexfloat(3) = peek(defimag+3)
-        hexfloat(4) = peek(defimag+4)
+        for i = 0 to 4
+            hexfloat(i) = peek(defimag+i)
+        next
         print "Using                              : "; : printhexfloat(defimag)
     endif
-    
-    poke initimag, hexfloat(0)
-    poke initimag+1, hexfloat(1)
-    poke initimag+2, hexfloat(2)
-    poke initimag+3, hexfloat(3)
-    poke initimag+4, hexfloat(4)
 
+    for i = 0 to 4
+        poke initimag+i, hexfloat(i)
+    next
+    
     repeat
         input "Zoom level (min 0, max 16)         : "; zl
     until (zl >= 0) & (zl <= 16)    
