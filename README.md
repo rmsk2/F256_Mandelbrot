@@ -55,6 +55,6 @@ The F256 version of this program needs about five minutes for the calculation of
 This is only about 60% of the runtime of the Commander X16 version (measured in the latest version of the emulator). As the F256 runs 
 at 6.29 MHz and the X16 at 8 MHz this speedup can be clearly attributed to the F256 math coprocessor.
 
-# Coming up
+# Coming up ...
 
-Allow to interrupt calculation after a key is pressed and allow user to cancel calculation.
+Use RTC to measure duration of calculation
