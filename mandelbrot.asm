@@ -310,7 +310,8 @@ _continueCalc
 
     jsr waitForKey
     jsr hires.off 
-_done       
+_done
+    stz CALC_INTERRUPTED       
     jsr restoreEvents
 
     rts
