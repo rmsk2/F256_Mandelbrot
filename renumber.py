@@ -58,7 +58,7 @@ if __name__ == "__main__":
                     f"defreal = ${label_dict['DEFAULT_INIT_REAL']}\n",
                     f"defimag = ${label_dict['DEFAULT_INIT_IMAG']}\n",
                     f"setzoom = ${label_dict['setZoomLevel']}\n",
-                    f"derive = ${label_dict['deriveParametersFromPixel']}\n",
+                    f"derive = ${label_dict['deriveFromBasicValues']}\n",
                     f"xpos = ${label_dict['COUNT_X']}\n",
                     f"ypos = ${label_dict['COUNT_Y']}\n",
                     f"paramlen = ${label_dict['PIC_PARAMS_LEN']}\n",

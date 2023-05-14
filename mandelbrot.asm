@@ -1,6 +1,6 @@
 .cpu "w65c02"
 
-*=$3000
+*=$3500
 
 RES_X = 320
 RES_Y = 240
@@ -450,4 +450,23 @@ _deriveDone
     #callFunc move32Bit, IMAG, INIT_IMAG
     #callFunc move32Bit, REAL, INIT_REAL
 
+    rts
+
+
+; --------------------------------------------------
+; This routine determines the point in the complex plane for which the pixel
+; at COUNT_X and COUNT_Y stands and sets the zoomlevel as provided in ZOOM_LEVEL. 
+; The values in COUNT_X and COUNT_Y are expected to be positions on the text screen. 
+; Therefore they are multiplied by 4 before they are used.
+;
+; deriveFromBasicValues has no return value. As a side effect it changes
+; INIT_REAL, INIT_IMAG, STEP_X and STEP_Y.
+; --------------------------------------------------
+deriveFromBasicValues
+    asl COUNT_Y
+    asl COUNT_Y
+    #double16Bit COUNT_X
+    #double16Bit COUNT_X
+    jsr deriveParametersFromPixel
+    jsr setZoomLevel
     rts
