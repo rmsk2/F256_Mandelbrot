@@ -57,4 +57,4 @@ at 6.29 MHz and the X16 at 8 MHz this speedup can be clearly attributed to the F
 
 # Coming up ...
 
-Use RTC to measure duration of calculation
+Use RTC to measure duration of calculation.
