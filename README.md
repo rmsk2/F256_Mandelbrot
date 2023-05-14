@@ -26,14 +26,23 @@ emulator's window.
 
 # Usage
 
-The BASIC program allows to either generate a picture or to load a picture. When generating a picture the section to be 
-visualized can be manually selected. You have to enter the real and imaginary part of the upper left corner of the 
+The BASIC program allows to either generate (press `G` (not `g`)) a picture or to load a picture (press `L` (not `l`)). When generating a 
+new picture the section to be visualized can be manually selected. You have to enter the real and imaginary part of the upper left corner of the 
 desired section in the complex plane. The format used for the numbers is the same as for my [C64](https://github.com/rmsk2/c64_mandelbrot)
 and  [X16](https://github.com/rmsk2/X16_mandelbrot) versions of this program. You also have to enter the zoom level, which in essence
 determines the size of the visualized section as well as the iteration depth to use. I use typically a depth of 24. Larger values give 
-a more precise result but lead to longer calculation times. Try for instance real part `00.4e6604` and imaginary part `00.641bc1` at a zoom
-level of 4 and an interation depth of 64. After the calculation is finished the program waits for a key press and after that asks 
-if the resulting picture should be saved or not.
+a more precise result but lead to longer calculation times. On the other hand when zooming into the intereseting parts of the set the 
+iteration depth also has to increase, because otherwise the potentially colourful parts simply remain black. Try for instance real part 
+`00.4e6604` and imaginary part `00.641bc1` at a zoom level of 4 and an interation depth of 64. After the calculation is finished the program 
+waits for a key press and after that asks if the resulting picture should be saved or not. 
+ 
+Following that the program asks if you want to zoom into the set. A rectangle is shown which can be moved with the cursor keys. Use `i` (zoom `i`n) 
+to halve the size of this rectangle or `o` (zoom `o`ut) to double its size. When you press `Return` the computational parameters are adapted to 
+visualize the selected section and the calculation starts anew using these parameters. When you press `q` the values are not changed and the 
+program ends.
+
+After loading a picture has been completed the program also waits for a key press. When a key is pressed you are asked if you want 
+to zoom into the set. If that question is answered with `y` then you can select a section to visualize as described above.
 
 # A note about performance
 
