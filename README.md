@@ -40,7 +40,7 @@ a more precise result but lead to longer calculation times. On the other hand wh
 iteration depth also has to increase, because otherwise the potentially colourful parts simply remain black. Try for instance real part 
 `00.4e6604` and imaginary part `00.641bc1` at a zoom level of 4 and an interation depth of 64. After the calculation is finished the program 
 waits for a key press and after that asks if the resulting picture should be saved or not. A calculation can be interrupted at any time
-by pressing a key. It is resumed if you press any key but `n`.
+by pressing a key. It is resumed if you press any key but `n` otherwise it is cancelled.
  
 Following that the program asks if you want to zoom into the set. If that question is answered with `y`es a rectangle is shown which can be moved
 with the cursor keys. Use `i` (zoom `i`n) to halve the size of this rectangle or `o` (zoom `o`ut) to double its size. When you press `Return` 
