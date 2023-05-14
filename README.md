@@ -36,10 +36,10 @@ iteration depth also has to increase, because otherwise the potentially colourfu
 `00.4e6604` and imaginary part `00.641bc1` at a zoom level of 4 and an interation depth of 64. After the calculation is finished the program 
 waits for a key press and after that asks if the resulting picture should be saved or not. 
  
-Following that the program asks if you want to zoom into the set. A rectangle is shown which can be moved with the cursor keys. Use `i` (zoom `i`n) 
-to halve the size of this rectangle or `o` (zoom `o`ut) to double its size. When you press `Return` the computational parameters are adapted to 
-visualize the selected section and the calculation starts anew using these parameters. When you press `q` the values are not changed and the 
-program ends.
+Following that the program asks if you want to zoom into the set. If that question is answered with `y`es a rectangle is shown which can be moved
+with the cursor keys. Use `i` (zoom `i`n) to halve the size of this rectangle or `o` (zoom `o`ut) to double its size. When you press `Return` 
+the computational parameters are adapted to visualize the selected section and the calculation starts anew using these parameters. When you 
+press `q` the values are not changed and the program ends.
 
 After loading a picture has been completed the program also waits for a key press. When a key is pressed you are asked if you want 
 to zoom into the set. If that question is answered with `y` then you can select a section to visualize as described above.
