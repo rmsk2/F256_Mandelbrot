@@ -294,6 +294,8 @@ mandelLoop
     jsr hires.on
     jsr hires.clearBitmap
 
+    stz CALC_INTERRUPTED
+
 _loopUntilFinished
     jsr nextMandel
     ; check for interruption of calculation    
@@ -311,7 +313,6 @@ _continueCalc
     jsr waitForKey
     jsr hires.off 
 _done
-    stz CALC_INTERRUPTED       
     jsr restoreEvents
 
     rts
