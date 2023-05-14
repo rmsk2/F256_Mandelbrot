@@ -521,6 +521,7 @@ _deriveDone
 deriveFromBasicValues
     asl COUNT_Y
     asl COUNT_Y
+    stz COUNT_X+1
     #double16Bit COUNT_X
     #double16Bit COUNT_X
     jsr deriveParametersFromPixel
