@@ -19,10 +19,11 @@ works for this project.
 
 ![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
 
-Some additional info about the screenshot. The pink square in the upper left corner is the cursor, which is not part of the
-picture. Unfortunately the program does not run in the emulator. In order to create the screenshot I loaded the precalculated image 
-data in the emulator's RAM beginning at address $10000 and issued the command `bitmap on`. After that I took a screenshot of the 
-emulator's window. Here another screenshot. 
+Some additional info about the screenshot. The values used were Real part: `-02.000000`, Imaginary part `01.250000`, zoom level 0 and
+iteratioon depth 80. These are the standard values which define the well known picture of the Mandalebrot set. The pink square in the
+upper left corner is the cursor, which is not part of the picture. Unfortunately the program does not run in the emulator. In order to
+create the screenshot I loaded the precalculated image data in the emulator's RAM beginning at address $10000 and issued the command `
+bitmap on`. After that I took a screenshot of the emulator's window. Here another screenshot. 
 
 ![](/thunderstorm.png?raw=true "Example picture at iteration depth 128")
 
