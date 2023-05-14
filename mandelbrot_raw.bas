@@ -29,6 +29,7 @@ else
     loadpicture()
 endif
 cursor on
+print "Good bye ..."
 end
 
 proc docalc()

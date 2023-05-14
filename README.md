@@ -22,7 +22,11 @@ works for this project.
 Some additional info about the screenshot. The pink square in the upper left corner is the cursor, which is not part of the
 picture. Unfortunately the program does not run in the emulator. In order to create the screenshot I loaded the precalculated image 
 data in the emulator's RAM beginning at address $10000 and issued the command `bitmap on`. After that I took a screenshot of the 
-emulator's window.
+emulator's window. Here another screenshot. 
+
+![](/thunderstorm.png?raw=true "Example picture at iteration depth 128")
+
+The parameters used were: Real part `00.605b58`, Imaginary part `00.aad9fc`, zoom level 11, iteration depth 128.
 
 # Usage
 
