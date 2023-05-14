@@ -21,14 +21,26 @@ zoomy(4) = 4-1
 
 loadmlprog() : print
 
-input "(G)enerate or (L)oad a picture?: "; inp$
+cls
 
-if inp$ = "G"
+print "---------------------------------------------------------------------------"
+print
+print "                  Mandelbrot set viewer by Martin Grap"
+print
+print "                            Written in 2023"
+print
+print "---------------------------------------------------------------------------"
+print
+input "(G)enerate or (L)oad a picture?: "; inp$
+print
+
+if (inp$ = "G") | (inp$ = "g")
     docalc()
 else
     loadpicture()
 endif
 cursor on
+print
 print "Good bye ..."
 end
 
@@ -91,7 +103,9 @@ proc generatepicture()
     until (iter > 0) & (iter <= 254)
     print "OK": 
     poke maxiter, iter
+    cls
     call progstart
+    cls
 endproc
 
 proc loadpicture()

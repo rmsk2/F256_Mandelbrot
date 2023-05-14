@@ -191,6 +191,9 @@ calcOneMandelbrotSequence
     #callFunc move32Bit, IMAG, YN
 
 _loopMandelbrot
+    ; check for key press
+    jsr checkKey
+
     jsr testMandelbrotDone
     beq _continueMandelbrot
     jmp _endMandelbrot
@@ -293,17 +296,68 @@ mandelLoop
 
 _loopUntilFinished
     jsr nextMandel
+    ; check for interruption of calculation    
+    lda CALC_INTERRUPTED
+    beq _continueCalc
+    jsr askContinue
+    bcs _continueCalc
+    bra _done
+_continueCalc
+    stz CALC_INTERRUPTED
     lda COUNT_Y
     cmp MAX_Y
     bne _loopUntilFinished
 
     jsr waitForKey
-    jsr hires.off
-    
+    jsr hires.off 
+_done       
     jsr restoreEvents
+
     rts
 
 .include "khelp.asm"
+
+textContinue .text "Continue calculation (y/n)?"
+colorContinue .text x"29" x len(textContinue)
+
+askContinue
+    jsr hires.Off
+    #kprint 0, 30, textContinue, len(textContinue), colorContinue
+    ldx #len(textContinue)
+    lda #30
+    jsr setCursor
+    jsr waitForKey
+    cmp #$4E                                  ; $4e = ASCII code for N
+    beq _stopCalc
+    cmp #$6E                                  ; $6E = ASCII code for n
+    beq _stopCalc
+    jsr hires.on
+    sec
+    rts
+_stopCalc
+    clc
+    rts
+
+NO_KEY_PRESSED = $0
+KEY_PRESSED = $1
+
+CALC_INTERRUPTED .byte 0
+
+checkKey
+    lda CALC_INTERRUPTED
+    bne _done
+    lda kernel.args.events.pending ; Negated count
+    bpl _done
+    jsr kernel.NextEvent
+    bcs _done
+    lda myEvent.type    
+    cmp #kernel.event.key.PRESSED
+    bne _done
+    lda #KEY_PRESSED
+    sta CALC_INTERRUPTED
+_done
+    rts
+    
 
 ; --------------------------------------------------
 ; This routine waits for a key press event from the kernel and returns

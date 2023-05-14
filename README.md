@@ -31,7 +31,7 @@ The parameters used were: Real part `00.605b58`, Imaginary part `00.aad9fc`, zoo
 
 # Usage
 
-The BASIC program allows to either generate (press `G` (not `g`)) a picture or to load a picture (press `L` (not `l`)). When generating a 
+The BASIC program allows to either generate (press `G` or `g`) a picture or to load a picture (press any other key). When generating a 
 new picture the section to be visualized can be manually selected. You have to enter the real and imaginary part of the upper left corner of the 
 desired section in the complex plane. The format used for the numbers is the same as for my [C64](https://github.com/rmsk2/c64_mandelbrot)
 and  [X16](https://github.com/rmsk2/X16_mandelbrot) versions of this program. You also have to enter the zoom level, which in essence

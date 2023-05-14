@@ -71,6 +71,7 @@ if __name__ == "__main__":
                     f"leny = ${label_dict['RECT_PARAMS']}+3\n",
                     f"txtcol = ${label_dict['RECT_PARAMS']}+4\n",
                     f"txtovwr = ${label_dict['RECT_PARAMS']}+5\n",
+                    f"calcintrpt = ${label_dict['CALC_INTERRUPTED']}\n",
                     'rem "**** Program text ****"\n',
                     'rem\n']
     renumber(sys.argv[1], sys.argv[2], header_lines, True)
