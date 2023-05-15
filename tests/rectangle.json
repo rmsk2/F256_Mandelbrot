@@ -1,0 +1,5 @@
+{
+    "Name": "Test rectangle drawing 1",
+    "TestDriverSource": "rectangle.a",
+    "TestScript": "rectangle.lua"
+}

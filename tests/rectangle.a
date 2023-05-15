@@ -1,0 +1,20 @@
+.cpu "w65c02"
+
+*=$0800
+
+jmp doTest
+
+.include "zeropage.asm"
+.include "fixed_point.asm"
+.include "txtdraw.asm"
+
+doTest
+    stz RECT_PARAMS.xpos 
+    stz RECT_PARAMS.ypos
+    stz RECT_PARAMS.lenx
+    stz RECT_PARAMS.leny
+    lda #$AF
+    sta RECT_PARAMS.col
+    stz RECT_PARAMS.overwrite
+    jsr drawRect
+    brk
