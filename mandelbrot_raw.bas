@@ -23,15 +23,19 @@ loadmlprog() : print
 
 cls
 
-print "---------------------------------------------------------------------------"
+print "***************************************************************************"
+print "*                                                                         *"
+print "*                 Mandelbrot set viewer by Martin Grap                    *" 
+print "*                                                                         *"
+print "*                           Written in 2023                               *"
+print "*                                                                         *"
+print "***************************************************************************"
 print
-print "                  Mandelbrot set viewer by Martin Grap"
+print "(G)enerate picture"
 print
-print "                            Written in 2023"
+print "(L)oad picture"
 print
-print "---------------------------------------------------------------------------"
-print
-input "(G)enerate or (L)oad a picture?: "; inp$
+input "Your selection: "; inp$
 print
 
 if (inp$ = "G") | (inp$ = "g")
@@ -110,6 +114,7 @@ endproc
 
 proc loadpicture()
     local filename$
+    changedrive()
     input "Filename: "; filename$
     cls
     cursor off
@@ -366,9 +371,20 @@ proc askforzoom()
     endif
 endproc
 
-proc askforsave()
+proc askforsave()    
     input "Save picture (y/n)? "; inp$
     if inp$ <> "n" 
+        changedrive()
         savepicture()
+    endif
+endproc
+
+proc changedrive()
+    local dr$
+    repeat
+        input "Drive 0,1 or 2? "; dr$
+    until (dr$ = "") | (dr$ = "0") | (dr$ = "1") | (dr$ = "2")
+    if dr$ <> ""
+        drive val(dr$)
     endif
 endproc
