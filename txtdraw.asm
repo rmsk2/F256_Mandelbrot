@@ -77,7 +77,6 @@ DRAW_MIDDLE .byte 0
 
 moveToNextChar .macro
     inx                                                         ; increment draw pos
-    inc LEN_X_COUNT                                             ; increment length counter
     #inc16Bit TXT_DRAW_PTR1                                     ; increment memory pointer
 .endmacro
 
@@ -85,7 +84,7 @@ drawLine
     ; x contains current x pos. X has to be < 80
     ldx RECT_PARAMS.xpos
     ; LEN_X_COUNT contains number of characters already processed in this line
-    ; LEN_X_COUNT has to by < RECT_PARAMS.lenx
+    ; LEN_X_COUNT has to be < RECT_PARAMS.lenx
     stz LEN_X_COUNT
 
     ; save current IO state
@@ -125,6 +124,7 @@ _loopMiddle
 _nextChar
     ; move to next character
     #moveToNextChar
+    inc LEN_X_COUNT                                             ; increment length counter
     bra _loopMiddle
     ; if we get here then x is still <= 79
     ; otherwise the check at _loopMiddle would have resulted
@@ -154,11 +154,6 @@ setDrawParams .macro params
     sta txtdraw.WORKING_LINE+2
 .endmacro
 
-moveToNextLine .macro
-    iny
-    inc txtdraw.LEN_Y_COUNT
-.endmacro
-
 
 RECT_PARAMS .dstruct rectParam_t
 
@@ -170,7 +165,7 @@ makeRect .macro UPPER, MIDDLE, LOWER
     sta txtdraw.DRAW_MIDDLE
     jsr txtdraw.drawLine
     #setDrawParams \MIDDLE
-    #moveToNextLine
+    iny
     lda RECT_PARAMS.overwrite
     sta txtdraw.DRAW_MIDDLE
 _loopLine
@@ -180,7 +175,8 @@ _loopLine
     cmp RECT_PARAMS.leny
     bcs _middleDone
     jsr txtdraw.drawLine
-    #moveToNextLine
+    iny
+    inc txtdraw.LEN_Y_COUNT
     bra _loopLine
 _middleDone
     #setDrawParams \LOWER

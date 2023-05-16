@@ -1,11 +1,11 @@
-txtrec = $34e6
-clrtxtrec = $3552
-txtx = $34e0
-txty = $34e0+1
-lenx = $34e0+2
-leny = $34e0+3
-txtcol = $34e0+4
-txtovwr = $34e0+5
+txtrec = $39e6
+clrtxtrec = $3a52
+txtx = $39e0
+txty = $39e0+1
+lenx = $39e0+2
+leny = $39e0+3
+txtcol = $39e0+4
+txtovwr = $39e0+5  
 overwrite = 1
 callrect(10, 10, 10, 10, $54, overwrite)
 waitforkeypress()

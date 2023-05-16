@@ -7,17 +7,17 @@ dim zoomx(5)
 dim zoomy(5)
 stopprog = 0
 
-zoomx(0) = 80-1
-zoomx(1) = 40-1
-zoomx(2) = 20-1
-zoomx(3) = 10-1
-zoomx(4) = 5-1
+zoomx(0) = 80-2
+zoomx(1) = 40-2
+zoomx(2) = 20-2
+zoomx(3) = 10-2
+zoomx(4) = 5-2
 
-zoomy(0) = 60-1
-zoomy(1) = 30-1
-zoomy(2) = 15-1
-zoomy(3) = 8-1
-zoomy(4) = 4-1
+zoomy(0) = 60-2
+zoomy(1) = 30-2
+zoomy(2) = 15-2
+zoomy(3) = 8-2
+zoomy(4) = 4-2
 
 loadmlprog() : print
 
@@ -129,6 +129,8 @@ proc loadpicture()
             askforsave()
             askforzoom()
         wend
+
+        printparams("Parameters used:"): print
     else 
         clearscreen()               
         print "Load error"
@@ -342,6 +344,8 @@ proc changezoomlevel(currentzoom)
         poke xpos, posx
         poke ypos, posy
         call derive
+    else
+        stopprog = -1
     endif
 
     cursor on
@@ -357,6 +361,7 @@ proc askforzoom()
             stopprog = -1
         endif
     else
+        stopprog = -1
         print "Maximum zoomlevel is reached"
     endif
 endproc
