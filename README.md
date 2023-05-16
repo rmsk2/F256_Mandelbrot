@@ -48,7 +48,9 @@ the computational parameters are adapted to visualize the selected section and t
 press `q` the values are not changed and the program ends.
 
 After loading a picture has been completed the program also waits for a key press. When a key is pressed you are asked if you want 
-to zoom into the set. If that question is answered with `y` then you can select a section to visualize as described above.
+to zoom into the set. If that question is answered with `y` then you can select a section to visualize as described above. Before loading
+or saving a picture the drive (0, 1 or 2) to use for this operation can be changed. If one presses just return instead of selecting a 
+number the current drive is not changed.
 
 # A note about performance
 
