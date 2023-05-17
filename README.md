@@ -2,20 +2,12 @@
 A program for the Foenix 256 Rev B that visualizes the mandelbrot set and makes use of the F256 integer coprocessor. 
 Use `make publish` to build the software and copy all the files needed to the `dist` directory. Copy the contents of 
 the `dist` directory to a compatible SD card and plug it into either the SD card slot of the F256 or an SD2IEC like 
-device. 
+device.  In Basic change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` for an SD2IEC 
+device with device number 8) and type `load "MANDELBROT.BAS"` followed by `run`.
 
-In Basic change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` for an SD2IEC device with 
-device number 8) and type `load "MANDELBROT.BAS"` followed by `run`.
-
-The makefile target `make upload` can be used to upload the machine language part (which does the computational heavy lifting)
-of the software to the memory of the F256 via a USB connection to the F256 debug port. The target address is $3500 and after the upload 
-it can be started by `call $3500`. You may have to adapt the serial device. On my machine the F256 debug port appears as `/dev/ttyUSB0`. 
-The makefile target `make test` runs some simple tests using my [6502profiler](https://github.com/rmsk2/6502profiler) project. As usual 
-use  `make clean` to delete all intermediate files from the project directory. 
-
-You will need the `64tass` macro assembler in your path in order to build the software. I use Ubuntu 22.04 on my development
-machine and I have not tested this software on any other operating system. The `64tass` version available in the Ubuntu repos
-works for this project.
+You will need the `64tass` macro assembler and a python interpreter in your path in order to build the software. I use 
+Ubuntu 22.04 on my development machine and I have not tested this software on any other operating system. The `64tass` 
+version available in the Ubuntu repos works for this project.
 
 ![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
 

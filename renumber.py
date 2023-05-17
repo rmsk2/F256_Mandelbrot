@@ -1,5 +1,6 @@
 import sys
 import re
+import importlib
 
 LINE_STEP = 5
 LINE_START = 100
@@ -44,34 +45,24 @@ def renumber(file_in, file_out, header_lines, for_upload):
         
 
 if __name__ == "__main__":
-    if len(sys.argv) < 4:
-        print("Usage: renumber <in_file> <outfile> <label_file>")
+    use_header_module = False
+
+    if len(sys.argv) < 3:
+        print("Usage: renumber <in_file> <outfile> [<label_file> <headermodule>]")
         sys.exit()
 
-    label_dict = parse_label_file(sys.argv[3])
-    header_lines = ['rem "**** variable references ****"\n',
-                    f"progstart = ${label_dict['PROG_START']}\n", 
-                    f"maxiter = ${label_dict['MAX_ITER']}\n", 
-                    f"initreal = ${label_dict['INIT_REAL']}\n",
-                    f"initimag = ${label_dict['INIT_IMAG']}\n",
-                    f"zoomlevel = ${label_dict['ZOOM_LEVEL']}\n",
-                    f"defreal = ${label_dict['DEFAULT_INIT_REAL']}\n",
-                    f"defimag = ${label_dict['DEFAULT_INIT_IMAG']}\n",
-                    f"setzoom = ${label_dict['setZoomLevel']}\n",
-                    f"derive = ${label_dict['deriveFromBasicValues']}\n",
-                    f"xpos = ${label_dict['COUNT_X']}\n",
-                    f"ypos = ${label_dict['COUNT_Y']}\n",
-                    f"paramlen = ${label_dict['PIC_PARAMS_LEN']}\n",
-                    f"paramaddr = ${label_dict['PIC_PARAMS']}\n",
-                    f"txtrec = ${label_dict['drawRect']}\n",
-                    f"clrtxtrec = ${label_dict['clearRect']}\n",
-                    f"txtx = ${label_dict['RECT_PARAMS']}\n",
-                    f"txty = ${label_dict['RECT_PARAMS']}+1\n",
-                    f"lenx = ${label_dict['RECT_PARAMS']}+2\n",
-                    f"leny = ${label_dict['RECT_PARAMS']}+3\n",
-                    f"txtcol = ${label_dict['RECT_PARAMS']}+4\n",
-                    f"txtovwr = ${label_dict['RECT_PARAMS']}+5\n",
-                    f"calcintrpt = ${label_dict['CALC_INTERRUPTED']}\n",
-                    'rem "**** Program text ****"\n',
-                    'rem\n']
+    if len(sys.argv) == 4:
+        print("Usage: renumber <in_file> <outfile> [<label_file> <headermodule>]")
+        sys.exit()
+
+    if len(sys.argv) >= 5:
+        use_header_module = True
+
+    header_lines = []
+
+    if use_header_module:
+        label_dict = parse_label_file(sys.argv[3])
+        mod = importlib.import_module(sys.argv[4])
+        header_lines = mod.get_headers(label_dict)
+
     renumber(sys.argv[1], sys.argv[2], header_lines, True)

@@ -14,12 +14,12 @@ $(LABELS): $(BINARY)
 test:
 	6502profiler verifyall -c config.json
 
-upload: $(BINARY)
-	sudo python3 fnxmgr.zip --port /dev/ttyUSB0 --binary $(BINARY) --address 2500
+drawtest.bas: drawtest_raw.bas $(LABELS)
+	python3 renumber.py drawtest_raw.bas drawtest.bas $(LABELS) drawtest
 
 publish: $(BINARY) $(BASIC_RAW) $(LABELS)
 	cp $(BINARY) dist/
-	python3 renumber.py $(BASIC_RAW) dist/$(BASIC) $(LABELS)
+	python3 renumber.py $(BASIC_RAW) dist/$(BASIC) $(LABELS) mandelbrot
 
 clean:
 	rm $(BINARY)

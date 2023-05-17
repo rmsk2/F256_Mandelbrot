@@ -23,26 +23,34 @@ loadmlprog() : print
 
 cls
 
-print "***************************************************************************"
-print "*                                                                         *"
-print "*                 Mandelbrot set viewer by Martin Grap                    *" 
-print "*                                                                         *"
-print "*                           Written in 2023                               *"
-print "*                                                                         *"
-print "***************************************************************************"
-print
-print "(G)enerate picture"
-print
-print "(L)oad picture"
-print
-input "Your selection: "; inp$
-print
+repeat
+    print "***************************************************************************"
+    print "*                                                                         *"
+    print "*                 Mandelbrot set viewer by Martin Grap                    *" 
+    print "*                                                                         *"
+    print "*                           Written in 2023                               *"
+    print "*                                                                         *"
+    print "***************************************************************************"
+    print
+    print "(G)enerate picture"
+    print
+    print "(L)oad picture"
+    print
+    print "(Q)uit"
+    print
+    input "Your selection: "; inp$
+    print
 
-if (inp$ = "G") | (inp$ = "g")
-    docalc()
-else
-    loadpicture()
-endif
+    if (inp$ = "G") | (inp$ = "g")
+        docalc()
+    endif
+
+    if (inp$ = "L") | (inp$ = "l")
+        loadpicture()
+    endif
+
+until (inp$ = "Q") | (inp$ = "q")
+
 cursor on
 print
 print "Good bye ..."
@@ -138,7 +146,8 @@ proc loadpicture()
         printparams("Parameters used:"): print
     else 
         clearscreen()               
-        print "Load error"
+        print "Load error. Press any key."
+        waitforkeypress()
     endif
 endproc
  
