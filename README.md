@@ -37,7 +37,7 @@ by pressing a key. It is resumed if you press any key but `n` otherwise it is ca
 Following that the program asks if you want to zoom into the set. If that question is answered with `y`es a rectangle is shown which can be moved
 with the cursor keys. Use `i` (zoom `i`n) to halve the size of this rectangle or `o` (zoom `o`ut) to double its size. When you press `Return` 
 the computational parameters are adapted to visualize the selected section and the calculation starts anew using these parameters. When you 
-press `q` the values are not changed and the program ends.
+press `q` the values are not changed and the program returns to the main menu.
 
 After loading a picture has been completed the program also waits for a key press. When a key is pressed you are asked if you want 
 to zoom into the set. If that question is answered with `y` then you can select a section to visualize as described above. Before loading
