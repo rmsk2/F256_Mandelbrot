@@ -5,7 +5,6 @@ resnibble = 0
 hexchars$ = "0123456789abcdef"
 dim zoomx(5)
 dim zoomy(5)
-stopprog = 0
 
 zoomx(0) = 80-2
 zoomx(1) = 40-2
@@ -24,6 +23,7 @@ loadmlprog() : print
 cls
 
 repeat
+    stopprog = 0
     print "***************************************************************************"
     print "*                                                                         *"
     print "*                 Mandelbrot set viewer by Martin Grap                    *" 
