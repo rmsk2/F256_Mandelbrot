@@ -23,16 +23,16 @@ The parameters used were: Real part `00.605b58`, Imaginary part `00.aad9fc`, zoo
 
 # Usage
 
-The BASIC program allows to either generate (press `G` or `g`) a picture or to load a picture (press any other key). When generating a 
-new picture the section to be visualized can be manually selected. You have to enter the real and imaginary part of the upper left corner of the 
-desired section in the complex plane. The format used for the numbers is the same as for my [C64](https://github.com/rmsk2/c64_mandelbrot)
-and  [X16](https://github.com/rmsk2/X16_mandelbrot) versions of this program. You also have to enter the zoom level, which in essence
-determines the size of the visualized section as well as the iteration depth to use. I use typically a depth of 24. Larger values give 
-a more precise result but lead to longer calculation times. On the other hand when zooming into the intereseting parts of the set the 
-iteration depth also has to increase, because otherwise the potentially colourful parts simply remain black. Try for instance real part 
-`00.4e6604` and imaginary part `00.641bc1` at a zoom level of 4 and an interation depth of 64. After the calculation is finished the program 
-waits for a key press and after that asks if the resulting picture should be saved or not. A calculation can be interrupted at any time
-by pressing a key. It is resumed if you press any key but `n` otherwise it is cancelled.
+The BASIC program allows to either generate (press `G` or `g`) a picture, load a picture (press `L` or `l`) or quitting the program. When 
+generating a new picture the section to be visualized can be manually selected. You have to enter the real and imaginary part of the upper 
+left corner of the desired section in the complex plane. The format used for the numbers is the same as for my 
+[C64](https://github.com/rmsk2/c64_mandelbrot) and  [X16](https://github.com/rmsk2/X16_mandelbrot) versions of this program. You also have 
+to enter the zoom level, which in essence determines the size of the visualized section as well as the iteration depth to use. I use 
+typically a depth of 24. Larger values give a more precise result but lead to longer calculation times. On the other hand when zooming 
+into the intereseting parts of the set the iteration depth also has to increase, because otherwise the potentially colourful parts simply 
+remain black. Try for instance real part `00.4e6604` and imaginary part `00.641bc1` at a zoom level of 4 and an interation depth of 64. 
+After the calculation is finished the program waits for a key press and after that asks if the resulting picture should be saved or not. 
+A calculation can be interrupted at any time by pressing a key. It is resumed if you press any key but `n` otherwise it is cancelled.
  
 Following that the program asks if you want to zoom into the set. If that question is answered with `y`es a rectangle is shown which can be moved
 with the cursor keys. Use `i` (zoom `i`n) to halve the size of this rectangle or `o` (zoom `o`ut) to double its size. When you press `Return` 
