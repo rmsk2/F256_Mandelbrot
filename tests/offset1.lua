@@ -24,7 +24,7 @@ function assert()
     in_x = test_data[iter_count].x
     in_y = test_data[iter_count].y
     res = (read_byte(load_address+4) * 256) + read_byte(load_address+3)
-    ref_val = in_y * 80 + in_x
+    ref_val = in_y * 80 + in_x + 0xC000
     
     return res == ref_val, string.format("Unexpected value: (%d * 80) + %d is not %d. Should be %d", in_y, in_x, res, ref_val)
 end
