@@ -166,6 +166,7 @@ _lineDone
 
 .endnamespace
 
+
 ; --------------------------------------------------
 ; This macro sets the contents of WORKING_LINE, i.e. the actual characters
 ; which are used to draw the leftmost and rightmost chars of the line as
@@ -225,6 +226,7 @@ _middleDone
     jsr txtdraw.drawLine
 _rectDone
 .endmacro
+
 
 ; --------------------------------------------------
 ; This routine draws a rectangle with text characters on the text screen. The draw
