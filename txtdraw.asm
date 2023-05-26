@@ -96,8 +96,8 @@ moveToNextChar .macro
 ; is defined by RECT_PARAMS.xpos and the contents of the Y-register. The line
 ; consists of single characters on the left and right end and a number of characters
 ; in the middle. The value of these characters is read from WORKING_LINE. The
-; color RAM is filled with the value given in RECT_PARAMS.col. The number of characters
-; written is determined by RECT_PARAMS.lenx.
+; color RAM is filled with the value given in RECT_PARAMS.col. The number of middle 
+; characters written is determined by RECT_PARAMS.lenx.
 ;
 ; This routine does not return a value.
 ; --------------------------------------------------
