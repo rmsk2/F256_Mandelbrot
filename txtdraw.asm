@@ -55,7 +55,7 @@ calcStartOffset
     adc RECT_PARAMS.xpos
     sta OFFSET
     lda OFFSET+1
-    adc #0
+    adc #$C0
     sta OFFSET+1
     rts
 
@@ -93,7 +93,6 @@ drawLine
 
     ; calculate start address in text and colour memory
     jsr calcStartOffset
-    #add16BitImmediate $C000, OFFSET
     #move16Bit OFFSET, TXT_DRAW_PTR1
     
     ; store leftmost character and its colour in memory
