@@ -1,11 +1,11 @@
 
 rectParam_t .struct 
-xpos      .byte 0
-ypos      .byte 0
-lenx      .byte 0
-leny      .byte 0
-col       .byte 0
-overwrite .byte 0
+xpos      .byte 0                                   ; xpos of left upper edge
+ypos      .byte 0                                   ; ypos of the left upper edge
+lenx      .byte 0                                   ; number of characters between the left and right edge
+leny      .byte 0                                   ; number of characters between the upper and lower edge
+col       .byte 0                                   ; colour to use (4 bit foreground and 4 bit background colour)
+overwrite .byte 0                                   ; set to 1 to clear the contents of the rectangle. Use 0 to leave the contents untouched
 .endstruct
 
 drawParam_t .struct  leftMost, middle, rightMost
@@ -34,6 +34,8 @@ RIGHT_MIDDLE_CHAR = 130
 LEFT_LOWER_CHAR = 162
 RIGHT_LOWER_CHAR = 163
 MIDDLE_LOWER_CHAR = 150
+DRAW_TRUE = 1
+DRAW_FALSE = 0
 
 
 UPPER_LINE  .dstruct drawParam_t, LEFT_UPPER_CHAR, MIDDLE_UPPER_CHAR, RIGHT_UPPER_CHAR
@@ -42,7 +44,13 @@ MIDDLE_LINE .dstruct drawParam_t, LEFT_MIDDLE_CHAR, BLANK_CHAR, RIGHT_MIDDLE_CHA
 CLEAR_LINE  .dstruct drawParam_t, BLANK_CHAR, BLANK_CHAR, BLANK_CHAR
 WORKING_LINE .dstruct drawParam_t, 0, 0, 0
 
-
+; --------------------------------------------------
+; This routine calculates the memory address of the cursor positon that
+; is given by RECT_PARAMS.xpos and the contents of the Y-register.
+;
+; This routine does not return a value but as a side effect it stores the
+; calculated address at the location OFFSET.
+; --------------------------------------------------
 calcStartOffset
     stz LH_OPER
     lda #X_MAX
@@ -59,10 +67,12 @@ calcStartOffset
     sta OFFSET+1
     rts
 
+
 toTxtMatrix .macro
     lda #2
     sta $01
 .endmacro
+
 
 toColorMatrix .macro
     lda #3
@@ -80,10 +90,20 @@ moveToNextChar .macro
     #inc16Bit TXT_DRAW_PTR1                                     ; increment memory pointer
 .endmacro
 
+; --------------------------------------------------
+; This routine draws a line on the text screen beginning at the coordinate that
+; is defined by RECT_PARAMS.xpos and the contents of the Y-register. The line
+; consists of single characters on the left and right end and a number of characters
+; in the middle. The value of these characters is read from WORKING_LINE. The
+; color RAM is filled with the value given in RECT_PARAMS.col. The number of characters
+; written is determined by RECT_PARAMS.lenx.
+;
+; This routine does not return a value.
+; --------------------------------------------------
 drawLine
     ; x contains current x pos. X has to be < 80
     ldx RECT_PARAMS.xpos
-    ; LEN_X_COUNT contains number of characters already processed in this line
+    ; LEN_X_COUNT contains number of middle characters already processed in this line
     ; LEN_X_COUNT has to be < RECT_PARAMS.lenx
     stz LEN_X_COUNT
 
@@ -106,6 +126,7 @@ drawLine
     ; move to next character
     #moveToNextChar
 
+    ; write all the characters in the middle
 _loopMiddle
     cpx #X_MAX                                                  ; Have we left the screen?
     bcs _lineDone                                               ; Yes, we have reached the right border => we are done
@@ -123,13 +144,14 @@ _loopMiddle
 _nextChar
     ; move to next character
     #moveToNextChar
-    inc LEN_X_COUNT                                             ; increment length counter
+    inc LEN_X_COUNT                                             ; increment counter for middle characters
     bra _loopMiddle
     ; if we get here then x is still <= 79
     ; otherwise the check at _loopMiddle would have resulted
     ; in a branch to _lineDone.
 _middleDone
     #toTxtMatrix
+    ; write rightmost character and its colour
     lda WORKING_LINE.right
     sta (TXT_DRAW_PTR1)
     #toColorMatrix
@@ -144,51 +166,85 @@ _lineDone
 
 .endnamespace
 
+; --------------------------------------------------
+; This macro sets the contents of WORKING_LINE, i.e. the actual characters
+; which are used to draw the leftmost and rightmost chars of the line as
+; well as all characters in the middle of the current line.
+; --------------------------------------------------
 setDrawParams .macro params
     lda \params
-    sta txtdraw.WORKING_LINE
+    sta txtdraw.WORKING_LINE.left
     lda \params+1
-    sta txtdraw.WORKING_LINE+1
+    sta txtdraw.WORKING_LINE.middle
     lda \params+2
-    sta txtdraw.WORKING_LINE+2
+    sta txtdraw.WORKING_LINE.right
 .endmacro
 
 
 RECT_PARAMS .dstruct rectParam_t
 
+; --------------------------------------------------
+; This macro calls drawLine for all y positions between RECT_PARAMS.ypos and
+; RECT_PARAMS.ypos+RECT_PARAMS.leny where all these line start at 
+; RECT_PARAMS.xpos. It can be parameterized by the character sets which
+; are to be used on the first or UPPER line, the last or LOWER line and for
+; all lines in between (the MIDDLE lines).
+; --------------------------------------------------
 makeRect .macro UPPER, MIDDLE, LOWER
+    ; the Y-register contains the current y position which is used for
+    ; drawing
     ldy RECT_PARAMS.ypos
+    ; LEN_Y_COUNT counts the number of middle lines that have been process until now
     stz txtdraw.LEN_Y_COUNT
-    #setDrawParams \UPPER
-    lda #1
-    sta txtdraw.DRAW_MIDDLE
-    jsr txtdraw.drawLine
-    #setDrawParams \MIDDLE
+    #setDrawParams \UPPER                                                            ; set draw characters for the first line  
+    lda #txtdraw.DRAW_TRUE
+    sta txtdraw.DRAW_MIDDLE                                                          ; Make sure the left edge is drawn    
+    jsr txtdraw.drawLine    
+    #setDrawParams \MIDDLE                                                           ; set draw characters for the middle lines
     iny
+    ; Load and store the value provided by the caller which decides whether
+    ; the middle characters are actually drawn or are simply skipped.
     lda RECT_PARAMS.overwrite
     sta txtdraw.DRAW_MIDDLE
+    ; draw all middle lines
 _loopLine
-    cpy #txtdraw.Y_MAX
-    bcs _rectDone
+    cpy #txtdraw.Y_MAX                                                               ; have we left the screen?
+    bcs _rectDone                                                                    ; Yes => we are done
     lda txtdraw.LEN_Y_COUNT
-    cmp RECT_PARAMS.leny
-    bcs _middleDone
-    jsr txtdraw.drawLine
+    cmp RECT_PARAMS.leny                                                             ; have we drawn all middle lines?
+    bcs _middleDone                                                                  ; Yes => draw last line
+    jsr txtdraw.drawLine                                                             ; draw a middle line
     iny
     inc txtdraw.LEN_Y_COUNT
     bra _loopLine
 _middleDone
-    #setDrawParams \LOWER
-    lda #1
+    ; draw last line
+    #setDrawParams \LOWER                                                            ; set draw characters for last line
+    lda #txtdraw.DRAW_TRUE                                                           ; we never skip the right edge
     sta txtdraw.DRAW_MIDDLE
     jsr txtdraw.drawLine
 _rectDone
 .endmacro
 
+; --------------------------------------------------
+; This routine draws a rectangle with text characters on the text screen. The draw
+; parameters have to be stored by the caller in the rectParam_t struct stored at
+; RECT_PARAMS.
+;
+; This routine does not return a value.
+; --------------------------------------------------
 drawRect
     #makeRect txtdraw.UPPER_LINE, txtdraw.MIDDLE_LINE, txtdraw.LOWER_LINE
     rts
 
+
+; --------------------------------------------------
+; This routine clears (i.e. fills with blank characters) a rectangle on the text screen.
+; The draw parameters have to be stored by the caller in the rectParam_t struct stored at
+; RECT_PARAMS.
+;
+; This routine does not return a value.
+; --------------------------------------------------
 clearRect
     #makeRect txtdraw.CLEAR_LINE, txtdraw.CLEAR_LINE, txtdraw.CLEAR_LINE
     rts
