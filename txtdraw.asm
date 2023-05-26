@@ -8,13 +8,14 @@ col       .byte 0                                   ; colour to use (4 bit foreg
 overwrite .byte 0                                   ; set to 1 to clear the contents of the rectangle. Use 0 to leave the contents untouched
 .endstruct
 
+
+txtdraw .namespace
+
 drawParam_t .struct  leftMost, middle, rightMost
 left    .byte \leftMost
 middle  .byte \middle
 right   .byte \rightMost
 .endstruct
-
-txtdraw .namespace
 
 LL_OPER = $DE00
 LH_OPER = $DE01
@@ -199,7 +200,7 @@ makeRect .macro UPPER, MIDDLE, LOWER
     stz txtdraw.LEN_Y_COUNT
     #setDrawParams \UPPER                                                            ; set draw characters for the first line  
     lda #txtdraw.DRAW_TRUE
-    sta txtdraw.DRAW_MIDDLE                                                          ; Make sure the left edge is drawn    
+    sta txtdraw.DRAW_MIDDLE                                                          ; we always draw the middle characters of the first line
     jsr txtdraw.drawLine    
     #setDrawParams \MIDDLE                                                           ; set draw characters for the middle lines
     iny
@@ -221,7 +222,7 @@ _loopLine
 _middleDone
     ; draw last line
     #setDrawParams \LOWER                                                            ; set draw characters for last line
-    lda #txtdraw.DRAW_TRUE                                                           ; we never skip the right edge
+    lda #txtdraw.DRAW_TRUE                                                           ; we always draw the middle characters of the last line
     sta txtdraw.DRAW_MIDDLE
     jsr txtdraw.drawLine
 _rectDone
