@@ -5,6 +5,8 @@ resnibble = 0
 hexchars$ = "0123456789abcdef"
 dim zoomx(5)
 dim zoomy(5)
+calcstart$ = ""
+calcend$ = ""
 
 zoomx(0) = 80-2
 zoomx(1) = 40-2
@@ -94,6 +96,7 @@ proc docalc()
 
     repeat
         generatepicture()
+        printcalctime()
         askforsave()
         askforzoom()
     until stopprog
@@ -116,8 +119,17 @@ proc generatepicture()
     print "OK": 
     poke maxiter, iter
     cls
+    calcstart$ = gettime$(0)
     call progstart
+    calcend$ = gettime$(0)
     cls
+endproc
+
+proc printcalctime()
+    print
+    print "Calculation started at: "; calcstart$
+    print "Calculation ended at  : "; calcend$
+    print
 endproc
 
 proc loadpicture()
@@ -139,6 +151,7 @@ proc loadpicture()
 
         while not(stopprog)
             generatepicture()
+            printcalctime()
             askforsave()
             askforzoom()
         wend
