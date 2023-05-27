@@ -7,6 +7,10 @@ dim zoomx(5)
 dim zoomy(5)
 calcstart$ = ""
 calcend$ = ""
+tsstart = 0
+tsend = 0
+tsres = 0
+pad$ = ""
 
 zoomx(0) = 80-2
 zoomx(1) = 40-2
@@ -26,6 +30,7 @@ cls
 
 repeat
     stopprog = 0
+    print
     print "***************************************************************************"
     print "*                                                                         *"
     print "*                 Mandelbrot set viewer by Martin Grap                    *" 
@@ -125,11 +130,59 @@ proc generatepicture()
     cls
 endproc
 
+proc zerostr(l)
+    local i
+    pad$ = ""
+    i = 0
+    while i < l
+        pad$ = pad$ + "0"
+        i = i + 1
+    wend
+endproc
+
 proc printcalctime()
+    local duration, d$, t$, h, d, s
+    parsetimestamp(calcstart$)
+    tsstart = tsres
+    parsetimestamp(calcend$)
+    tsend = tsres
+
+    if tsend < tsstart
+        duration = (86400 - tsstart) + tsend
+    else
+        duration = tsend - tsstart    
+    endif
+
+    h = duration \ 3600
+    s = duration % 3600
+    m = s \ 60
+    s = s % 60
+
+    t$ = str$(h) 
+    zerostr(2 - len(t$))
+    d$ = pad$ + t$
+    t$ = str$(m)
+    zerostr(2 - len(t$))
+    d$ = d$ + ":" + pad$  + t$
+    t$ = str$(s)
+    zerostr(2 - len(t$))
+    d$ = d$ + ":"  + pad$ + t$
+
     print
-    print "Calculation started at: "; calcstart$
-    print "Calculation ended at  : "; calcend$
+    print "Calculation started at : "; calcstart$
+    print "Calculation ended at   : "; calcend$
+    print "Duration of calculation: "; d$
     print
+endproc
+
+proc parsetimestamp(timestamp$)
+    local h, m, s
+
+    h = val(mid$(timestamp$, 1, 2))
+    m = val(mid$(timestamp$, 4, 2))
+    s = val(mid$(timestamp$, 7, 2))
+
+    tsres = h * 3600 + m * 60 + s
 endproc
 
 proc loadpicture()
