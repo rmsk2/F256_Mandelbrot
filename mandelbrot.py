@@ -1,7 +1,8 @@
 def get_headers(label_dict):
     header_lines = ['rem "**** variable references ****"\n',
                 f"progstart = ${label_dict['PROG_START']}\n", 
-                f"maxiter = ${label_dict['MAX_ITER']}\n", 
+                f"maxiter = ${label_dict['MAX_ITER']}\n",
+                f"numiter = ${label_dict['NUM_ITER']}\n", 
                 f"initreal = ${label_dict['INIT_REAL']}\n",
                 f"initimag = ${label_dict['INIT_IMAG']}\n",
                 f"zoomlevel = ${label_dict['ZOOM_LEVEL']}\n",
@@ -23,6 +24,7 @@ def get_headers(label_dict):
                 f"txtovwr = ${label_dict['RECT_PARAMS']}+5\n",
                 f"calcintrpt = ${label_dict['CALC_INTERRUPTED']}\n",
                 f"progsig = ${label_dict['PROG_SIG']}\n",
+                f"plotstate = ${label_dict['PLOT_STATE']}\n",
                 'rem "**** Program text ****"\n',
                 'rem\n']
     

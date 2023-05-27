@@ -263,11 +263,11 @@ initMandel
 ; nextMandel has no return value. 
 ; --------------------------------------------------
 nextMandel
-    #move16Bit COUNT_X, PLOT_POS_X
+    #move16Bit COUNT_X, PLOT_STATE.pos_x
     lda COUNT_Y
-    sta PLOT_POS_Y
+    sta PLOT_STATE.pos_y
     jsr calcOneMandelbrotSequence
-    jsr decideToSetPoint
+    jsr plotPoint
     ; REAL <= STEP_X + REAL
     #callFunc add32Bit, STEP_X, REAL
     #inc16Bit COUNT_X
@@ -381,36 +381,52 @@ _done
     lda myEvent.key.ascii
     rts 
 
-PLOT_POS_X
-.byte 0,0
-PLOT_POS_Y
-.byte 0
+plotState_t .struct
+    pos_x    .word 0
+    pos_y    .byte 0
+    param1   .byte 109
+    param2   .byte 0
+    param3   .byte 0
+    param4   .byte 0
+    col_vec  .word chooseColour
+.endstruct
 
-; --------------------------------------------------
-; This routine looks at NUM_ITER and MAX_ITER and decides what color a point
-; is given
-; --------------------------------------------------
-decideToSetPoint
-    #move16Bit PLOT_POS_X, hires.setPixelArgs.x
-    lda PLOT_POS_Y
-    sta hires.setPixelArgs.y
-    
+PLOT_STATE .dstruct plotState_t
+
+chooseColVec
+    jmp (PLOT_STATE.col_vec)
+
+
+chooseColour
     lda NUM_ITER
     cmp MAX_ITER
     beq _drawBlack
 
     clc    
-    adc #109                            ; shift color
-    bne _draw                           ; value is not zero => we are done
+    adc PLOT_STATE.param1               ; shift color
+    bne _done                           ; value is not zero => we are done
     ; value was zero but color zero is black which is reserved for points in the set.
     ; Use color 1 instead
     lda #1                              
-    bra _draw
+    bra _done
 _drawBlack
     ; use a black pixel if the maximum number of iterations
     ; was reached
-    lda #0    
-_draw    
+    lda #0
+_done        
+    rts
+
+; --------------------------------------------------
+; This routine looks at NUM_ITER and MAX_ITER and decides what color a point
+; is given
+; --------------------------------------------------
+plotPoint
+    #move16Bit PLOT_STATE.pos_x, hires.setPixelArgs.x
+    lda PLOT_STATE.pos_y
+    sta hires.setPixelArgs.y
+    
+    jsr chooseColVec
+
     sta hires.setPixelArgs.col
     jsr hires.setPixel
     rts
