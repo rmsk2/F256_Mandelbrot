@@ -11,6 +11,7 @@ tsstart = 0
 tsend = 0
 tsres = 0
 pad$ = ""
+prsig$ = "MGSJ"
 
 zoomx(0) = 80-2
 zoomx(1) = 40-2
@@ -56,6 +57,10 @@ repeat
         loadpicture()
     endif
 
+    if inp$ = "W"
+        poke progsig, 0
+        inp$ = "q"
+    endif
 until (inp$ = "Q") | (inp$ = "q")
 
 cursor on
@@ -316,11 +321,19 @@ proc printparams(s$)
 endproc
 
 proc loadmlprog()
+    local i, s$
+
+    s$ = ""
+    for i = 0 to 3
+        s$ = s$ + chr$(peek(progsig + i))
+    next
     print "Loading machine language program ...";
-    try bload "mandel.prg", progstart to rc
-    if rc <> 0
-        print "Load error"
-        end
+    if s$ <> prsig$
+        try bload "mandel.prg", progstart to rc
+        if rc <> 0
+            print "Load error"
+            end
+        endif
     endif
     print " done"
 endproc

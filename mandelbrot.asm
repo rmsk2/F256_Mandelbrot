@@ -309,9 +309,6 @@ _continueCalc
     lda COUNT_Y
     cmp MAX_Y
     bne _loopUntilFinished
-
-    ;jsr waitForKey
-    ;jsr hires.off 
 _done
     jsr restoreEvents
 
@@ -527,3 +524,5 @@ deriveFromBasicValues
     jsr deriveParametersFromPixel
     jsr setZoomLevel
     rts
+
+PROG_SIG .text "MGSJ"

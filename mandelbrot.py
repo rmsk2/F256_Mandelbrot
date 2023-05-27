@@ -22,6 +22,7 @@ def get_headers(label_dict):
                 f"txtcol = ${label_dict['RECT_PARAMS']}+4\n",
                 f"txtovwr = ${label_dict['RECT_PARAMS']}+5\n",
                 f"calcintrpt = ${label_dict['CALC_INTERRUPTED']}\n",
+                f"progsig = ${label_dict['PROG_SIG']}\n",
                 'rem "**** Program text ****"\n',
                 'rem\n']
     
