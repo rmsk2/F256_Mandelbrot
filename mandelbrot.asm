@@ -393,10 +393,11 @@ plotState_t .struct
 
 PLOT_STATE .dstruct plotState_t
 
-chooseColVec
-    jmp (PLOT_STATE.col_vec)
 
-
+; --------------------------------------------------
+; This routine looks at NUM_ITER and MAX_ITER and decides what color a point
+; is given
+; --------------------------------------------------
 chooseColour
     lda NUM_ITER
     cmp MAX_ITER
@@ -416,9 +417,9 @@ _drawBlack
 _done        
     rts
 
+
 ; --------------------------------------------------
-; This routine looks at NUM_ITER and MAX_ITER and decides what color a point
-; is given
+; This routine sets a point on the bitmap
 ; --------------------------------------------------
 plotPoint
     #move16Bit PLOT_STATE.pos_x, hires.setPixelArgs.x
@@ -430,6 +431,10 @@ plotPoint
     sta hires.setPixelArgs.col
     jsr hires.setPixel
     rts
+
+; Call routine whose address is stored in PLOT_STATE.col_vec
+chooseColVec
+    jmp (PLOT_STATE.col_vec)
 
 
 ; --------------------------------------------------
