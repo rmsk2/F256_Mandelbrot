@@ -52,4 +52,5 @@ at 6.29 MHz and the X16 at 8 MHz this speedup can be clearly attributed to the F
 
 # Coming up ...
 
-Use RTC to measure duration of calculation.
+- Test for presence of machine language part after restart
+- Allow to modify/parameterize/replace the routine that decides how pixels are coloured
