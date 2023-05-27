@@ -310,8 +310,8 @@ _continueCalc
     cmp MAX_Y
     bne _loopUntilFinished
 
-    jsr waitForKey
-    jsr hires.off 
+    ;jsr waitForKey
+    ;jsr hires.off 
 _done
     jsr restoreEvents
 

@@ -127,7 +127,10 @@ proc generatepicture()
     calcstart$ = gettime$(0)
     call progstart
     calcend$ = gettime$(0)
-    cls
+    if peek(calcintrpt) = 0
+        waitforkeypress()
+    endif
+    clearscreen()
 endproc
 
 proc zerostr(l)
