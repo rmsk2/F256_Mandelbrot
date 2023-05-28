@@ -388,7 +388,7 @@ plotState_t .struct
     param2   .byte 0
     param3   .byte 0
     param4   .byte 0
-    col_vec  .word chooseColour
+    col_vec  .word chooseColourDefault
 .endstruct
 
 PLOT_STATE .dstruct plotState_t
@@ -398,7 +398,7 @@ PLOT_STATE .dstruct plotState_t
 ; This routine looks at NUM_ITER and MAX_ITER and decides what color a point
 ; is given
 ; --------------------------------------------------
-chooseColour
+chooseColourDefault
     lda NUM_ITER
     cmp MAX_ITER
     beq _drawBlack
@@ -409,6 +409,25 @@ chooseColour
     ; value was zero but color zero is black which is reserved for points in the set.
     ; Use color 1 instead
     lda #1                              
+    bra _done
+_drawBlack
+    ; use a black pixel if the maximum number of iterations
+    ; was reached
+    lda #0
+_done        
+    rts
+
+
+ALT_COLS .byte 253, 252, 248, 212, 200, 204, 240, 236, 196, 228, 225, 192, 164, 160, 96, 64
+
+chooseColourAlt1
+    lda NUM_ITER
+    cmp MAX_ITER
+    beq _drawBlack
+
+    and #$0F
+    tax
+    lda ALT_COLS, x
     bra _done
 _drawBlack
     ; use a black pixel if the maximum number of iterations

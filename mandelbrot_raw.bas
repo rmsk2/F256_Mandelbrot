@@ -26,6 +26,7 @@ zoomy(3) = 8-2
 zoomy(4) = 4-2
 
 loadmlprog() : print
+rem "pokew plotstate+7, altcol1"
 
 cls
 

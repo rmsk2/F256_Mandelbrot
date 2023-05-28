@@ -25,6 +25,8 @@ def get_headers(label_dict):
                 f"calcintrpt = ${label_dict['CALC_INTERRUPTED']}\n",
                 f"progsig = ${label_dict['PROG_SIG']}\n",
                 f"plotstate = ${label_dict['PLOT_STATE']}\n",
+                f"defaultcol1 = ${label_dict['chooseColourDefault']}\n",
+                f"altcol1 = ${label_dict['chooseColourAlt1']}\n",
                 'rem "**** Program text ****"\n',
                 'rem\n']
     
