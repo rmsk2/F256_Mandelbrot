@@ -112,7 +112,7 @@ proc docalc()
     until stopprog
 
     print "Done": print
-    printparams("Parameters used:")    
+    printparams("Parameters used:", -1)    
 endproc
 
 proc savepicture()
@@ -207,7 +207,7 @@ proc loadpicture()
         memcopy bitmapaddr+320*240, paramlen to paramaddr
         waitforkeypress()        
         clearscreen()
-        printparams("Parameters used:"): print
+        printparams("Parameters used:", 0): print
         askforzoom()
 
         while not(stopprog)
@@ -216,8 +216,9 @@ proc loadpicture()
             askforsave()
             askforzoom()
         wend
-
-        printparams("Parameters used:"): print
+        
+        print
+        printparams("Parameters used:", -1): print
     else 
         clearscreen()               
         print "Load error. Press any key."
@@ -312,12 +313,15 @@ proc printhexfloat(addr)
     print 
 endproc
 
-proc printparams(s$)
+proc printparams(s$, printiter)
     print s$
     print "==============="
     print "Real part      : ";: printhexfloat(initreal)
     print "Imaginary part : ";: printhexfloat(initimag)
     print "Zoom level     :  ";: print peek(zoomlevel)
+    if printiter <> 0
+        print "Iteration depth:  ";: print peek(maxiter)
+    endif
 endproc
 
 proc loadmlprog()
@@ -452,7 +456,7 @@ proc askforzoom()
         input "Zoom into picture (y/n)? "; inp$
         if inp$ <> "n"
             changezoomlevel(peek(zoomlevel))
-            printparams("New parameters")
+            printparams("New parameters", 0)
         else
             stopprog = -1
         endif
