@@ -133,6 +133,7 @@ proc generatepicture()
     calcstart$ = gettime$(0)
     call progstart
     calcend$ = gettime$(0)
+    sound 1, 500, 10
     if peek(calcintrpt) = 0
         waitforkeypress()
     endif
