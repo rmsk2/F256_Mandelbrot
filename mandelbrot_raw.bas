@@ -26,7 +26,7 @@ zoomy(3) = 8-2
 zoomy(4) = 4-2
 
 loadmlprog() : print
-rem "pokew plotstate+7, altcol1"
+poke colshift, 109
 
 cls
 
@@ -133,8 +133,8 @@ proc generatepicture()
     calcstart$ = gettime$(0)
     call progstart
     calcend$ = gettime$(0)
-    sound 1, 500, 10
     if peek(calcintrpt) = 0
+        sound 1, 500, 10
         waitforkeypress()
     endif
     clearscreen()

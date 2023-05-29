@@ -27,6 +27,7 @@ def get_headers(label_dict):
                 f"plotstate = ${label_dict['PLOT_STATE']}\n",
                 f"defaultcol1 = ${label_dict['chooseColourDefault']}\n",
                 f"altcol1 = ${label_dict['chooseColourAlt1']}\n",
+                f"colshift = ${label_dict['PLOT_STATE']}+3\n",
                 'rem "**** Program text ****"\n',
                 'rem\n']
     
