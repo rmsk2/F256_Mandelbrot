@@ -1,5 +1,5 @@
 # F256 Mandelbrot
-A program for the Foenix 256 Rev B that visualizes the [mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
+A program for the Foenix 256 Rev B that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
 and makes use of the F256 integer coprocessor. Use `make publish` to build the software and copy all the files needed 
 to the `dist` directory. Copy the contents of the `dist` directory to a compatible SD card and plug it into either the 
 SD card slot of the F256 or an SD2IEC like device.  In Basic change to the relevant device (`drive 0` for the built in 
@@ -53,4 +53,4 @@ at 6.29 MHz and the X16 at 8 MHz this speedup can be clearly attributed to the F
 
 # Coming up ...
 
-- Allow to modify/parameterize/replace the routine that decides how pixels are coloured
+- We'll see
