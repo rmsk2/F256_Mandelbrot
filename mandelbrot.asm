@@ -385,7 +385,7 @@ plotState_t .struct
     pos_x    .word 0
     pos_y    .byte 0
     param1   .byte 109
-    param2   .byte 0
+    param2   .byte 32
     param3   .byte 0
     param4   .byte 0
     col_vec  .word chooseColourDefault
@@ -418,16 +418,14 @@ _done
     rts
 
 
-ALT_COLS .byte 253, 252, 248, 212, 200, 204, 240, 236, 196, 228, 225, 192, 164, 160, 96, 64
-
 chooseColourAlt1
     lda NUM_ITER
     cmp MAX_ITER
     beq _drawBlack
 
-    and #$0F
-    tax
-    lda ALT_COLS, x
+    and #$1F
+    clc
+    adc PLOT_STATE.param2
     bra _done
 _drawBlack
     ; use a black pixel if the maximum number of iterations
