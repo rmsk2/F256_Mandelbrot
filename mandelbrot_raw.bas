@@ -26,7 +26,8 @@ zoomy(3) = 8-2
 zoomy(4) = 4-2
 
 loadmlprog() : print
-poke colshift, 109
+read colshiftval
+poke colshift, colshiftval
 
 cls
 
@@ -485,3 +486,6 @@ proc changedrive()
         drive val(dr$)
     endif
 endproc
+
+rem "colshiftval"
+data 109
