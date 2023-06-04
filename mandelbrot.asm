@@ -317,10 +317,27 @@ _done
 .include "khelp.asm"
 
 textContinue .text "Continue calculation (y/n)?"
-colorContinue .text x"29" x len(textContinue)
+colorContinue .text x"92" x len(textContinue)
+textIter .text "Iteration depth:    "
+textZoom .text "Zoom level     :    "
+colorTextIter .text x"92" x len(textIter)
 
 askContinue
     jsr hires.Off
+    lda #32
+    sta textIter+17
+    sta textIter+18
+    sta textIter+19
+    #itoa textIter+17, MAX_ITER
+    #kprint 0, 27, textIter, len(textIter), colorTextIter
+
+    lda #32
+    sta textZoom+17
+    sta textZoom+18
+    sta textZoom+19
+    #itoa textZoom+17, ZOOM_LEVEL
+    #kprint 0, 28, textZoom, len(textZoom), colorTextIter
+
     #kprint 0, 30, textContinue, len(textContinue), colorContinue
     ldx #len(textContinue)
     lda #30

@@ -165,6 +165,91 @@ _lineDone
     rts
 
 
+HEX_CHARS .text "0123456789ABCDEF"
+
+MOD_10_TABLE
+.byte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5 
+.byte 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1 
+.byte 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7 
+.byte 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3 
+.byte 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 
+.byte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5 
+.byte 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1 
+.byte 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7 
+.byte 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3 
+.byte 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 
+.byte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5 
+.byte 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1 
+.byte 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7 
+.byte 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3 
+.byte 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 
+.byte 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5
+
+DIV_10_TABLE
+.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 
+.byte 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3 
+.byte 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4 
+.byte 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6 
+.byte 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 
+.byte 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9 
+.byte 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 11, 11 
+.byte 11, 11, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 12, 12 
+.byte 12, 12, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14 
+.byte 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 
+.byte 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17 
+.byte 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19 
+.byte 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20 
+.byte 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22 
+.byte 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23 
+.byte 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 25, 25, 25, 25, 25, 25
+
+itoaState_t .struct
+itoa_temp   .byte 0
+itoa_index  .byte 0
+itoa_buffer .text "   "
+.endstruct
+
+ITOA_STATE .dstruct itoaState_t
+; --------------------------------------------------
+; This routine turns the byte contained in the accu into string of decimal
+; digits.
+; 
+; The resulting string has to be referenced through TXT_DRAW_PTR3. The length
+; of the string is returned in to accu.
+; --------------------------------------------------
+itoaCall
+    ldx #0
+    stx ITOA_STATE.itoa_index
+    sta ITOA_STATE.itoa_temp
+
+    ; convert byte value to character digits in reverse order
+_itoaLoop
+    tax
+    lda MOD_10_TABLE,x
+    tay
+    lda HEX_CHARS, y
+    ldy ITOA_STATE.itoa_index
+    sta ITOA_STATE.itoa_buffer,y
+    inc ITOA_STATE.itoa_index
+    lda DIV_10_TABLE, x
+    bne _itoaLoop
+
+    ldx ITOA_STATE.itoa_index
+    dex
+    ldy #0
+    ; copy string data to target buffer in such a way that the
+    ; result is in correct order
+_copyOutput
+    lda ITOA_STATE.itoa_buffer, x
+    sta (TXT_DRAW_PTR3), y
+    iny
+    dex
+    bpl _copyOutput  
+
+    lda ITOA_STATE.itoa_index
+
+    rts
+
 .endnamespace
 
 
@@ -228,6 +313,12 @@ _middleDone
 _rectDone
 .endmacro
 
+itoa .macro res_addr, data_addr
+    #load16BitImmediate \res_addr, TXT_DRAW_PTR3
+    lda \data_addr
+    jsr txtdraw.itoaCall
+
+.endmacro
 
 ; --------------------------------------------------
 ; This routine draws a rectangle with text characters on the text screen. The draw
