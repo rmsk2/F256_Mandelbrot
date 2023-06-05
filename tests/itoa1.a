@@ -1,0 +1,18 @@
+.cpu "w65c02"
+
+* = $0800
+
+jmp main
+
+DATA_IN .byte 0
+RES     .text "   "
+
+
+.include "zeropage.asm"
+.include "fixed_point.asm"
+.include "txtdraw.asm"
+
+main
+    sta DATA_IN
+    #itoa RES, DATA_IN 
+    rts
