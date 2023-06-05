@@ -7,7 +7,6 @@ jmp main
 DATA_IN .byte 0
 RES     .text "   "
 
-
 .include "zeropage.asm"
 .include "fixed_point.asm"
 .include "txtdraw.asm"
