@@ -21,7 +21,8 @@ LL_OPER = $DE00
 LH_OPER = $DE01
 RL_OPER = $DE02
 RH_OPER = $DE03
-MUL_RES = $DE04
+; Change value to $DE04 for an F256 Jr.
+MUL_RES = $DE10
 
 X_MAX = 80
 Y_MAX = 60

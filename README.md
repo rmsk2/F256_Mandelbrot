@@ -1,5 +1,5 @@
 # F256 Mandelbrot
-A program for the Foenix 256 Rev B that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
+A program for the Foenix 256 Rev B and F256 K that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
 and makes use of the F256 integer coprocessor. Use `make publish` to build the software and copy all the files needed 
 to the `dist` directory. Copy the contents of the `dist` directory to a compatible SD card and plug it into either the 
 SD card slot of the F256 or an SD2IEC like device.  In Basic change to the relevant device (`drive 0` for the built in 
@@ -8,6 +8,19 @@ SD card slot or `drive 1` for an SD2IEC device with device number 8) and type `l
 You will need the `64tass` macro assembler and a python interpreter in your path in order to build the software. I use 
 Ubuntu 22.04 on my development machine and I have not tested this software on any other operating system. The `64tass` 
 version available in the Ubuntu repos works for this project.
+
+**Note:** The math coprocessor addresses differ between the F256 Jr. (in factory condition as of March 2023) 
+and the F256 K (as bought in October 2023). This repo uses the F256 K addresses as a default. You have to 
+change the value of 
+
+- `COPROC_RES` in `fixed_point.asm`
+- `MUL_RES_CO_PROC` in `hires_base.asm`
+- `MUL_RES` in `txtdraw.asm`
+
+from `$DE10` to `$DE04` when building for a F256 Jr. in factory condition. Additionally the file `api.asm`, which 
+defines the kernel interface, has been updated to a newer version. When building for an original F256 Jr. you may 
+have to use the version of `api.asm` which was current when your system was released. I assume it is possible to update
+the F256 Jr. to the same state as the F256 K but I have not updated my machine yet.
 
 ![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
 

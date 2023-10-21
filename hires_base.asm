@@ -103,13 +103,16 @@ col             .byte 0
 
 setPixelArgs .dstruct strSetPixelArgs
 
+; Change value to $DE04 for an F256 Jr.
+MUL_RES_CO_PROC = $DE10
+
 ; --------------------------------------------------
 ; This routine sets a pixel in the bitmap using XPOS, YPOS and
 ; COLOR from above
 ;--------------------------------------------------
 setPixel
     ; multiply 320 and y position
-    ; multiplication result is stored at $DE04-$DE07
+    ; multiplication result is stored at $DE10-$DE13
     lda setPixelArgs.y
     sta $DE00
     stz $DE01
@@ -117,14 +120,14 @@ setPixel
 
     ; calculate (320 * YPOS) + XPOS    
     clc
-    lda $DE04
+    lda MUL_RES_CO_PROC
     adc setPixelArgs.x
     sta ZP_GRAPHIC_PTR
-    lda $DE05
+    lda MUL_RES_CO_PROC+1
     adc setPixelArgs.x+1
     sta GRAPHIC_ADDRESS
     lda #0
-    adc $DE06
+    adc MUL_RES_CO_PROC+2
     sta GRAPHIC_ADDRESS+1
 
     ; get address in 8K window => look at lower 13 bits

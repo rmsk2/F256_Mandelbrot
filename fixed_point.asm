@@ -248,7 +248,8 @@ sub32SwitchedUnsigned
 OPER_L = $DE00
 OPER_R = $DE02
 
-COPROC_RES = $DE04
+; Change value to $DE04 for an F256 Jr.
+COPROC_RES = $DE10
 
 ; --------------------------------------------------
 ; This macro copies a 16 bit integer starting at a given offset from the value
