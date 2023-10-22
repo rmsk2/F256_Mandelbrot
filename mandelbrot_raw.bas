@@ -5,6 +5,8 @@ resnibble = 0
 hexchars$ = "0123456789abcdef"
 dim zoomx(5)
 dim zoomy(5)
+dim keycodes(8)
+dim keyascii$(8)
 calcstart$ = ""
 calcend$ = ""
 tsstart = 0
@@ -12,6 +14,7 @@ tsend = 0
 tsres = 0
 pad$ = ""
 prsig$ = "MGSJ"
+keypressed$ = ""
 
 zoomx(0) = 80-2
 zoomx(1) = 40-2
@@ -24,6 +27,24 @@ zoomy(1) = 30-2
 zoomy(2) = 15-2
 zoomy(3) = 8-2
 zoomy(4) = 4-2
+
+keycodes(0) = 184 
+keycodes(1) = 185
+keycodes(2) = 182
+keycodes(3) = 183
+keycodes(4) = 105
+keycodes(5) = 111
+keycodes(6) = 148
+keycodes(7) = 113
+
+keyascii$(0) = chr$(2)
+keyascii$(1) = chr$(6)
+keyascii$(2) = chr$(16)
+keyascii$(3) = chr$(14)
+keyascii$(4) = "i"
+keyascii$(5) = "o"
+keyascii$(6) = chr$(13)
+keyascii$(7) = "q"
 
 loadmlprog() : print
 read colshiftval
@@ -365,11 +386,31 @@ proc callclear(x, y, w, h, c, o)
       call clrtxtrec
 endproc
 
+proc checkkey()
+    local done, i, delay
+    done = 0
+
+    repeat
+        for i = 0 to 7
+            if keydown(keycodes(i)) 
+                while inkey$() <> ""
+                wend
+
+                keypressed$ = keyascii$(i)
+                done = 1
+            endif
+        next
+    until done <> 0
+endproc
+
 proc changezoomlevel(currentzoom)
-    local posy, posy, zoomdelta, width, height, key$, done, col
+    local posy, posy, zoomdelta, width, height, key$, done, col, delay
 
     cls
     cursor off
+
+    for delay = 0 to 1000
+    next
 
     posx = 0
     posy = 0
@@ -383,9 +424,10 @@ proc changezoomlevel(currentzoom)
     
     repeat
         bitmap on
-        repeat
-            key$ = inkey$()
-        until key$ <> ""
+        checkkey()
+        for delay = 0 to 1000
+        next        
+        key$ = keypressed$
 
         if (key$ = chr$(16)) & (posy > 0)
             callclear(posx, posy, width, height, col, 0)

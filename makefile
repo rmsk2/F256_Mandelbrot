@@ -17,6 +17,10 @@ test:
 drawtest.bas: drawtest_raw.bas $(LABELS)
 	python3 renumber.py drawtest_raw.bas drawtest.bas $(LABELS) drawtest
 
+inputttest.bas: inputttest_raw.bas $(LABELS)
+	python3 renumber.py inputttest_raw.bas inputttest.bas $(LABELS) inputtest
+
+
 publish: $(BINARY) $(BASIC_RAW) $(LABELS)
 	cp $(BINARY) dist/
 	python3 renumber.py $(BASIC_RAW) dist/$(BASIC) $(LABELS) mandelbrot
