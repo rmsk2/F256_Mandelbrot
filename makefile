@@ -25,6 +25,10 @@ publish: $(BINARY) $(BASIC_RAW) $(LABELS)
 	cp $(BINARY) dist/
 	python3 renumber.py $(BASIC_RAW) dist/$(BASIC) $(LABELS) mandelbrot
 
+tstprgclean:
+	rm inputttest.bas
+	rm drawtest.bas
+
 clean:
 	rm $(BINARY)
 	rm $(LABELS)
