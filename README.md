@@ -24,6 +24,8 @@ defines the kernel interface, has been updated to a newer version. When building
 have to use the version of `api.asm` which was current when your system was released. I assume it is possible to update
 the F256 Jr. to the same state as the F256 K but I have not updated my machine yet.
 
+# Some screenshots
+
 ![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
 
 Some additional info about the screenshot depicted above. The values used were Real part: `-02.000000`, Imaginary part `01.250000`, 
