@@ -1,14 +1,15 @@
 # F256 Mandelbrot
 A program for the Foenix 256 Jr. Rev B and F256 K that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
-and makes use of the F256 integer coprocessor. If you want to build the software yourself (under Linux) clone the repo, issue the command
-`make publish`, then copy the contents of the `dist` directory to a compatible SD card and plug that into either the SD card slot of 
-the F256 or an SD2IEC like device.  In Basic change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` 
-for an SD2IEC device with device number 8) and type `load "mandelbrot.bas"` followed by `run`. Alternatively you can download the two files 
-`mandelbrot.bas` and `mandel.prg` from the release section of this repo and copy them to an SD card.
+and makes use of the F256 integer coprocessor. Download the two files `mandelbrot.bas` and `mandel.prg` from the release 
+section of this repo, copy them to a F256 compatible SD card and plug that into either the SD card slot of the F256 or an SD2IEC 
+like device. In Basic change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` for an SD2IEC device 
+with device number 8) and type `load "mandelbrot.bas"` followed by `run`. 
 
+# How to build the software yourself
 If you want to build the software yourself you will need the `64tass` macro assembler and a python interpreter in your `PATH`. 
 I use Ubuntu 22.04 on my development machine and I have not tested this software on any other operating system. The `64tass` 
-version available in the Ubuntu repos works for this project.
+version available in the Ubuntu repos works for this project. Clone the repo, issue the command `make publish`, then copy the 
+contents of the `dist` directory to a compatible SD card.
 
 **Note:** The math coprocessor addresses differ between the F256 Jr. (in factory condition as of March 2023) 
 and the F256 K (as bought in October 2023). This repo uses the F256 K addresses as a default. You have to 
@@ -27,9 +28,7 @@ the F256 Jr. to the same state as the F256 K but I have not updated my machine y
 
 Some additional info about the screenshot depicted above. The values used were Real part: `-02.000000`, Imaginary part `01.250000`, 
 zoom level 0 and iteration depth 80. These are the standard values which define the well known picture of the Mandelbrot set. The 
-pink square in the upper left corner is the cursor, which is not part of the picture. Unfortunately the program does not run in the 
-emulator. In order to create the screenshot I loaded the precalculated image data in the emulator's RAM beginning at address $10000 
-and issued the command ` bitmap on`. After that I took a screenshot of the emulator's window. Here another screenshot. 
+pink square in the upper left corner is the cursor, which is not part of the picture. Here another screenshot. 
 
 ![](/thunderstorm.png?raw=true "Example picture at iteration depth 128")
 
@@ -45,9 +44,9 @@ to enter the zoom level, which in essence determines the size of the visualized 
 to choose an iteration depth. I use typically a depth of 24. Larger values give a more precise result but lead to longer calculation times. 
 On the other hand when zooming into the intereseting parts of the set the iteration depth also has to increase, because otherwise the 
 potentially colourful parts simply remain black. Try for instance real part `00.4e6604` and imaginary part `00.641bc1` at a zoom level of 4 
-and an interation depth of 64. After the calculation is finished the program waits for a key press and after that asks if the resulting picture 
-should be saved or not. A calculation can be interrupted at any time by pressing a key. It is resumed if you press any key but `n` otherwise 
-it is cancelled.
+and an interation depth of 64 and calculate the picture with a lower iteration depth to see the difference. A calculation can be interrupted
+at any time by pressing a key. It is resumed if you press any key but `n` otherwise it is cancelled. After the calculation is finished 
+the program waits for a key press and after that asks if the resulting picture should be saved or not. 
  
 Following that the program asks if you want to zoom into the set. If that question is answered with `y`es a rectangle is shown which can be moved
 with the cursor keys. Use `i` (zoom `i`n) to shrink the size of this rectangle or `o` (zoom `o`ut) to enlarge it again. When you press `Return` 
