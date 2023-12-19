@@ -1,12 +1,13 @@
 # F256 Mandelbrot
-A program for the Foenix 256 Rev B and F256 K that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
-and makes use of the F256 integer coprocessor. Use `make publish` to build the software and copy all the files needed 
-to the `dist` directory. Copy the contents of the `dist` directory to a compatible SD card and plug it into either the 
-SD card slot of the F256 or an SD2IEC like device.  In Basic change to the relevant device (`drive 0` for the built in 
-SD card slot or `drive 1` for an SD2IEC device with device number 8) and type `load "MANDELBROT.BAS"` followed by `run`.
+A program for the Foenix 256 Jr. Rev B and F256 K that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
+and makes use of the F256 integer coprocessor. If you want to build the software yourself (under Linux) clone the repo, issue the command
+`make publish`, then copy the contents of the `dist` directory to a compatible SD card and plug that into either the SD card slot of 
+the F256 or an SD2IEC like device.  In Basic change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` 
+for an SD2IEC device with device number 8) and type `load "mandelbrot.bas"` followed by `run`. Alternatively you can download the two files 
+`mandelbrot.bas` and `mandel.prg` from the release section of this repo and copy them to an SD card.
 
-You will need the `64tass` macro assembler and a python interpreter in your path in order to build the software. I use 
-Ubuntu 22.04 on my development machine and I have not tested this software on any other operating system. The `64tass` 
+If you want to build the software yourself you will need the `64tass` macro assembler and a python interpreter in your `PATH`. 
+I use Ubuntu 22.04 on my development machine and I have not tested this software on any other operating system. The `64tass` 
 version available in the Ubuntu repos works for this project.
 
 **Note:** The math coprocessor addresses differ between the F256 Jr. (in factory condition as of March 2023) 
