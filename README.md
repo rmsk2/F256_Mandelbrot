@@ -29,7 +29,7 @@ the F256 Jr. to the same state as the F256 K but I have not updated my machine y
 
 ![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
 
-Some additional info about the screenshot depicted above. The values used were Real part: `-02.000000`, Imaginary part `01.250000`, 
+Some info about the screenshot depicted above. The values used were Real part: `-02.000000`, Imaginary part `01.250000`, 
 zoom level 0 and iteration depth 80. These are the standard values which define the well known picture of the Mandelbrot set. The 
 pink square in the upper left corner is the cursor, which is not part of the picture. Here another screenshot. 
 
