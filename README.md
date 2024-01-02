@@ -12,7 +12,7 @@ I use Ubuntu 22.04 on my development machine and I have not tested this software
 version available in the Ubuntu repos works for this project. Clone the repo, issue the command `make publish`, then copy the 
 contents of the `dist` directory to a compatible SD card.
 
-**Note:** The math coprocessor addresses differ between the F256 Jr. (in factory condition as of March 2023) 
+**Note:** The math coprocessor addresses differ between the F256 Jr. (in factory condition as of March 2023 having FPGA version RC08) 
 and the F256 K (as bought in October 2023). This repo uses the F256 K addresses as a default. You have to 
 change the value of 
 
@@ -20,10 +20,11 @@ change the value of
 - `MUL_RES_CO_PROC` in `hires_base.asm`
 - `MUL_RES` in `txtdraw.asm`
 
-from `$DE10` to `$DE04` when building for a F256 Jr. in factory condition. Additionally the file `api.asm`, which 
-defines the kernel interface, has been updated to a newer version. When building for an original F256 Jr. you may 
-have to use the version of `api.asm` which was current when your system was released. I assume it is possible to update
-the F256 Jr. to the same state as the F256 K but I have not updated my machine yet.
+from `$DE10` to `$DE04` when building for a F256 Jr. with an FPGA version below RC10. Additionally the file `api.asm`, 
+which defines the kernel interface, has been updated to a newer version. When building for an original F256 Jr. you may 
+have to use the version of `api.asm` which was current when your system was released. It is possible to update
+the F256 Jr. to the same state as the F256 K but I have not updated my machine yet. The changes in the integer
+coprocessor happened in the bitstream RC10 for the F256 Jr. FPGA.
 
 # Some screenshots
 
