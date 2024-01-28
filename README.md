@@ -23,8 +23,8 @@ change the value of
 from `$DE10` to `$DE04` when building for a F256 Jr. with an FPGA version below RC10. Additionally the file `api.asm`, 
 which defines the kernel interface, has been updated to a newer version. When building for an original F256 Jr. you may 
 have to use the version of `api.asm` which was current when your system was released. It is possible to update
-the F256 Jr. to the same state as the F256 K but I have not updated my machine yet. The changes in the integer
-coprocessor happened in the bitstream RC10 for the F256 Jr. FPGA.
+the F256 Jr. to the same state as the F256 K. The changes in the integer coprocessor happened in the bitstream RC10 for the 
+F256 Jr. FPGA.
 
 # Some screenshots
 
