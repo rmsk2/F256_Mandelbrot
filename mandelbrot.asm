@@ -362,7 +362,7 @@ askContinue
 
     #kprint 0, 31, textContinue, len(textContinue), colorContinue
     ldx #len(textContinue)
-    lda #30
+    lda #31
     jsr setCursor
     jsr waitForKey
     cmp #$4E                                  ; $4e = ASCII code for N
