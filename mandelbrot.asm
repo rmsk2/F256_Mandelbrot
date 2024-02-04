@@ -324,15 +324,14 @@ _done
 
 textContinue .text "Continue calculation (y/n)?"
 colorContinue .text x"92" x len(textContinue)
-textIter .text "Iteration depth:    "
-textZoom .text "Zoom level     :    "
+textIter .text          "Iteration depth:    "
+textZoom .text          "Zoom level     :    "
+TEXT_ELAPSED_TIME .text "Elapsed time   : "
+TIME_STR .fill 8
 colorTextIter .text x"92" x len(textIter)
+colorTime .text x"92" x (len(TEXT_ELAPSED_TIME)+8)
 
 CURRENT_TIME .dstruct TimeStamp_t
-
-TEXT_ELAPSED_TIME .text "Elapsed time: "
-TIME_STR .fill 8
-colorTime .text x"92" x (len(TEXT_ELAPSED_TIME)+8)
 
 calcTime
     #getTimestamp CURRENT_TIME
