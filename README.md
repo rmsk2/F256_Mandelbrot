@@ -19,7 +19,7 @@ contents of the `dist` directory to a compatible SD card.
 - `MUL_RES` in `txtdraw.asm`
 
 from `$DE10` to `$DE04` when building for a F256 Jr. with an FPGA version below RC10. When building for a F256 Jr. with older 
-firware you may also have to use the version of `api.asm` which was current when that firmware was released. See 
+firmware you may also have to use the version of `api.asm` which was current when that firmware was released. See 
 [here](https://wiki.f256foenix.com/index.php?title=FPGA_Releases) for information on how to update the FPGA load. The changes 
 in the integer coprocessor happened in the bitstream RC10 for the F256 Jr. FPGA.
 
