@@ -6,7 +6,7 @@ LABELS=labels.txt
 
 all: $(BINARY)
 
-$(BINARY): fixed_point.asm $(MANDEL) api.asm khelp.asm hires_base.asm txtdraw.asm zeropage.asm
+$(BINARY): fixed_point.asm $(MANDEL) api.asm khelp.asm hires_base.asm txtdraw.asm zeropage.asm rtc.asm
 	64tass -o $(BINARY) -l $(LABELS) -b $(MANDEL)
 
 $(LABELS): $(BINARY)

@@ -13,6 +13,7 @@ jmp mandelLoop
 .include "fixed_point.asm"
 .include "hires_base.asm"
 .include "txtdraw.asm"
+.include "rtc.asm"
 
 ; --------------------------------------------------
 ; values settable/usable by callers
@@ -283,12 +284,17 @@ _done
     rts
 
 
+START_TIME .dstruct TimeStamp_t, 0, 0, 0
+
 ; --------------------------------------------------
 ; This routine visualizes the Mandelbrot set 
 ; --------------------------------------------------
 mandelLoop
     jsr initEvents
     jsr initMandel
+
+    #getTimestamp START_TIME
+
     lda #3
     sta hires.backgroundColor
     jsr hires.on
@@ -322,6 +328,19 @@ textIter .text "Iteration depth:    "
 textZoom .text "Zoom level     :    "
 colorTextIter .text x"92" x len(textIter)
 
+CURRENT_TIME .dstruct TimeStamp_t
+
+TEXT_ELAPSED_TIME .text "Elapsed time: "
+TIME_STR .fill 8
+colorTime .text x"92" x (len(TEXT_ELAPSED_TIME)+8)
+
+calcTime
+    #getTimestamp CURRENT_TIME
+    #diffTime START_TIME, CURRENT_TIME
+    #getTimeStr TIME_STR, CURRENT_TIME
+    rts
+
+
 askContinue
     jsr hires.Off
     lda #32
@@ -338,7 +357,10 @@ askContinue
     #itoa textZoom+17, ZOOM_LEVEL
     #kprint 0, 28, textZoom, len(textZoom), colorTextIter
 
-    #kprint 0, 30, textContinue, len(textContinue), colorContinue
+    jsr calcTime
+    #kprint 0, 29, TEXT_ELAPSED_TIME, len(TEXT_ELAPSED_TIME) + 8, colorTime
+
+    #kprint 0, 31, textContinue, len(textContinue), colorContinue
     ldx #len(textContinue)
     lda #30
     jsr setCursor

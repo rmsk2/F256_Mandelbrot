@@ -57,3 +57,37 @@ setCursor
     stz CURSOR_Y+1
     sta CURSOR_Y
     rts    
+
+
+RTC_BUFFER .dstruct kernel.time_t
+
+kGetTimeStamp
+    #load16BitImmediate RTC_BUFFER, kernel.args.buf
+    lda #size(kernel.time_t)
+    sta kernel.args.buflen
+    jsr kernel.Clock.GetTime
+    lda RTC_BUFFER.seconds
+    sta RTCI2C.seconds
+    lda RTC_BUFFER.minutes
+    sta RTCI2C.minutes
+    lda RTC_BUFFER.hours
+    sta RTCI2C.hours
+    rts
+
+CONV_TEMP
+.byte 0
+; --------------------------------------------------
+; This routine splits the value in accu its nibbles. The lower nibble 
+; is returned in x and its upper nibble in the accu
+; --------------------------------------------------
+splitByte
+    sta CONV_TEMP
+    and #$0F
+    tax
+    lda CONV_TEMP
+    and #$F0
+    lsr
+    lsr 
+    lsr 
+    lsr
+    rts

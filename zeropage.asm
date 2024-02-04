@@ -13,3 +13,5 @@ TEMP_MUL = $9C           ; 8 bytes
 LEFT_GREATER_EQUAL_RIGHT = $A4
 TXT_DRAW_PTR2 = $A5;$A6
 TXT_DRAW_PTR3 = $A7;$A8
+TEMP_PTR = $c2;/$c3
+TEMP_PTR2 = $c4;/$c5
