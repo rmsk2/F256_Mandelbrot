@@ -3,11 +3,17 @@ BINARY=mandel.prg
 BASIC=mandelbrot.bas
 BASIC_RAW=mandelbrot_raw.bas
 LABELS=labels.txt
+CONV=f256_conv
 
-all: $(BINARY)
+all: $(BINARY) 
+
+f256conv: $(CONV)
 
 $(BINARY): fixed_point.asm $(MANDEL) api.asm khelp.asm hires_base.asm txtdraw.asm zeropage.asm rtc.asm
 	64tass -o $(BINARY) -l $(LABELS) -b $(MANDEL)
+
+$(CONV): f256_conv.go
+	go build
 
 $(LABELS): $(BINARY)
 
@@ -20,7 +26,6 @@ drawtest.bas: drawtest_raw.bas $(LABELS)
 inputttest.bas: inputttest_raw.bas $(LABELS)
 	python3 renumber.py inputttest_raw.bas inputttest.bas $(LABELS) inputtest
 
-
 publish: $(BINARY) $(BASIC_RAW) $(LABELS)
 	cp $(BINARY) dist/
 	python3 renumber.py $(BASIC_RAW) dist/$(BASIC) $(LABELS) mandelbrot
@@ -30,8 +35,9 @@ tstprgclean:
 	rm drawtest.bas
 
 clean:
-	rm $(BINARY)
-	rm $(LABELS)
-	rm dist/$(BINARY)
-	rm dist/$(BASIC)
-	rm tests/bin/*.bin
+	rm -f $(BINARY)
+	rm -f $(CONV)
+	rm -f $(LABELS)
+	rm -f dist/$(BINARY)
+	rm -f dist/$(BASIC)
+	rm -f tests/bin/*.bin
