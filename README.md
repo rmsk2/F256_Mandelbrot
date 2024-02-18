@@ -27,9 +27,9 @@ in the integer coprocessor happened in the bitstream RC10 for the F256 Jr. FPGA.
 
 ![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
 
-Some info about the screenshot depicted above. The values used were Real part: `-02.000000`, Imaginary part `01.250000`, 
-zoom level 0 and iteration depth 80. These are the standard values which define the well known picture of the Mandelbrot set. The 
-pink square in the upper left corner is the cursor, which is not part of the picture. Here another screenshot. 
+Some info about the picture shown above. The values used were Real part: `-02.000000`, Imaginary part `01.250000`, 
+zoom level 0 and iteration depth 80. These are the standard values which define the well known picture of the Mandelbrot set. Here another
+example. 
 
 ![](/thunderstorm.png?raw=true "Example picture at iteration depth 128")
 
