@@ -23,7 +23,7 @@ firmware you may also have to use the version of `api.asm` which was current whe
 [here](https://wiki.f256foenix.com/index.php?title=FPGA_Releases) for information on how to update the FPGA load. The changes 
 in the integer coprocessor happened in the bitstream RC10 for the F256 Jr. FPGA.
 
-# Some screenshots
+# Example pictures
 
 ![](/mandelbrot.png?raw=true "Example picture at iteration depth 80")
 
