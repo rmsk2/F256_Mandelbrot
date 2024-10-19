@@ -4,7 +4,7 @@ and makes use of the F256 integer coprocessor. Download the two files `mandelbro
 section of this repo, copy them to a F256 compatible SD card and plug that into either the SD card slot of the F256 or an SD2IEC 
 like device. In BASIC change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` for an SD2IEC device 
 with device number 8) and type `load "mandelbrot.bas"` followed by `run`. This will first load the machine language part `mandel.prg`
-(which does all the mathematical heavy lifitng using fixed point arithmetic) and then start the program.
+(which does all the mathematical heavy lifting using fixed point arithmetic) and then start the program.
 
 # How to build the software yourself
 If you want to build the software yourself you will need the `64tass` macro assembler and a python interpreter in your `PATH`. 
