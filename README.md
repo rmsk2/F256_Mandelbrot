@@ -45,7 +45,7 @@ to enter the zoom level, which in essence determines the size of the visualized 
 to choose an iteration depth. I use typically a depth of 24. Larger values give a more precise result but lead to longer calculation times. 
 On the other hand when zooming into the intereseting parts of the set the iteration depth also has to increase, because otherwise the 
 potentially colourful parts simply remain black. Try for instance real part `00.4e6604` and imaginary part `00.641bc1` at a zoom level of 4 
-and an interation depth of 64 and calculate the picture with a lower iteration depth to see the difference. A calculation can be interrupted
+and an iteration depth of 64 and calculate the picture with a lower iteration depth to see the difference. A calculation can be interrupted
 at any time by pressing a key. It is resumed if you press any key but `n` otherwise it is cancelled. After the calculation is finished 
 the program waits for a key press and after that asks if the resulting picture should be saved or not. 
  
