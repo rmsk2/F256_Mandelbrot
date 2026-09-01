@@ -7,11 +7,8 @@ dim zoomx(5)
 dim zoomy(5)
 dim keycodes(8)
 dim keyascii$(8)
-calcstart$ = ""
-calcend$ = ""
-tsstart = 0
-tsend = 0
-tsres = 0
+calcstart = 0
+calcend = 0
 pad$ = ""
 prsig$ = "MGSJ"
 keypressed$ = ""
@@ -152,9 +149,9 @@ proc generatepicture()
     print "OK": 
     poke maxiter, iter
     cls
-    calcstart$ = gettime$(0)
+    calcstart = timer()
     call progstart
-    calcend$ = gettime$(0)
+    calcend = timer()
     if peek(calcintrpt) = 0
         sound 1, 500, 10
         waitforkeypress()
@@ -173,17 +170,12 @@ proc zerostr(l)
 endproc
 
 proc printcalctime()
-    local duration, d$, t$, h, d, s
-    parsetimestamp(calcstart$)
-    tsstart = tsres
-    parsetimestamp(calcend$)
-    tsend = tsres
-
-    if tsend < tsstart
-        duration = (86400 - tsstart) + tsend
-    else
-        duration = tsend - tsstart    
+    local duration, d$, t$, h, m, s
+    duration = calcend - calcstart
+    if duration < 0
+        duration = duration + $1000000
     endif
+    duration = duration \ 70
 
     h = duration \ 3600
     s = duration % 3600
@@ -201,20 +193,8 @@ proc printcalctime()
     d$ = d$ + ":"  + pad$ + t$
 
     print
-    print "Calculation started at : "; calcstart$
-    print "Calculation ended at   : "; calcend$
     print "Duration of calculation: "; d$
     print
-endproc
-
-proc parsetimestamp(timestamp$)
-    local h, m, s
-
-    h = val(mid$(timestamp$, 1, 2))
-    m = val(mid$(timestamp$, 4, 2))
-    s = val(mid$(timestamp$, 7, 2))
-
-    tsres = h * 3600 + m * 60 + s
 endproc
 
 proc loadpicture()
