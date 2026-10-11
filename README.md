@@ -1,5 +1,5 @@
 # F256 Mandelbrot
-A program for the Foenix 256 Jr., F256 K and F256 K2 that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
+A program for the Foenix/Wildbits 256 Jr., F256 K and F256 K2 that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
 and makes use of the F256 integer coprocessor. Download the two files `mandelbrot.bas` and `mandel.prg` from the release 
 section of this repo, copy them to a F256 compatible SD card and plug that into either the SD card slot of the F256 or an SD2IEC 
 like device. In BASIC change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` for an SD2IEC device 
