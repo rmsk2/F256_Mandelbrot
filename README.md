@@ -1,5 +1,5 @@
 # F256 Mandelbrot
-A program for the Foenix 256 Jr. Rev B and F256 K that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
+A program for the Foenix 256 Jr., F256 K and F256 K2 that visualizes the [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) 
 and makes use of the F256 integer coprocessor. Download the two files `mandelbrot.bas` and `mandel.prg` from the release 
 section of this repo, copy them to a F256 compatible SD card and plug that into either the SD card slot of the F256 or an SD2IEC 
 like device. In BASIC change to the relevant device (`drive 0` for the built in SD card slot or `drive 1` for an SD2IEC device 
@@ -14,7 +14,7 @@ allocate below `$2000` and do not need that reservation. Elapsed time uses
 
 # How to build the software yourself
 If you want to build the software yourself you will need the `64tass` macro assembler and a python interpreter in your `PATH`. 
-I use Ubuntu 22.04 on my development machine and I have not tested this software on any other operating system. The `64tass` 
+I use Ubuntu 26.04 on my development machine and I have not tested this software on any other operating system. The `64tass` 
 version available in the Ubuntu repos works for this project. Clone the repo, issue the command `make publish`, then copy the 
 contents of the `dist` directory to a compatible SD card.
 
