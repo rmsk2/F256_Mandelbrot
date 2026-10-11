@@ -1,5 +1,7 @@
 .cpu "w65c02"
 
+; Newer SuperBASIC versions use this address for array/alloc storage. The
+; launcher reserves the image there; legacy versions allocate below $2000.
 *=$4000
 
 RES_X = 320
@@ -125,8 +127,6 @@ DEFAULT_INIT_REAL
 DEFAULT_INIT_IMAG
 .byte 0, 0, 0, $25, 1
 ; **************************************************
-
-
 
 ; --------------------------------------------------
 ; This routine test if calcualtion of the Mandelbrot sequence should be stopped.
@@ -602,3 +602,8 @@ deriveFromBasicValues
     rts
 
 PROG_SIG .text "MGSJ"
+
+; Marks the first byte after the machine-language image. The BASIC launcher
+; uses this label to reserve the exact amount of array/alloc memory before it
+; creates any arrays.
+PROG_END
