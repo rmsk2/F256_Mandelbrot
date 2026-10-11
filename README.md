@@ -6,6 +6,12 @@ like device. In BASIC change to the relevant device (`drive 0` for the built in 
 with device number 8) and type `load "mandelbrot.bas"` followed by `run`. This will first load the machine language part `mandel.prg`
 (which does all the mathematical heavy lifting using fixed point arithmetic) and then start the program.
 
+The launcher supports both the legacy SuperBASIC 1.1 memory layout and newer
+versions with a separate array area. It probes `alloc(0)` and reserves the
+machine-language image only when allocations start at `$4000`. Legacy versions
+allocate below `$2000` and do not need that reservation. Elapsed time uses
+`timer()`, so an unset real-time clock does not prevent calculation.
+
 # How to build the software yourself
 If you want to build the software yourself you will need the `64tass` macro assembler and a python interpreter in your `PATH`. 
 I use Ubuntu 22.04 on my development machine and I have not tested this software on any other operating system. The `64tass` 

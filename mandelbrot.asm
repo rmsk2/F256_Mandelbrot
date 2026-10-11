@@ -1,7 +1,7 @@
 .cpu "w65c02"
 
-; SuperBASIC's array/alloc area starts here. The generated BASIC launcher must
-; reserve this image before creating any arrays.
+; Newer SuperBASIC versions use this address for array/alloc storage. The
+; launcher reserves the image there; legacy versions allocate below $2000.
 *=$4000
 
 RES_X = 320

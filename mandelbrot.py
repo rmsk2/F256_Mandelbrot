@@ -6,13 +6,21 @@ def get_headers(label_dict):
         offset = int(label_dict[label], 16) - prog_start
         return f"progstart + ${offset:x}"
 
+    # ALLOC(0) probes without consuming memory. Legacy SuperBASIC allocates
+    # below $2000; newer versions share $4000-$7fff with this fixed image.
+    # Reject other layouts instead of loading over an occupied array area.
     header_lines = ['rem "**** variable references ****"\n',
                 f"progorg = ${prog_start:x}\n",
                 f"progsize = ${prog_end - prog_start:x}\n",
-                "progstart = alloc(progsize)\n",
-                "if progstart <> progorg\n",
-                '    print "Machine-language memory is not available at $4000"\n',
-                "    end\n",
+                "progstart = progorg\n",
+                "allocstart = alloc(0)\n",
+                "if allocstart = progorg\n",
+                "    progstart = alloc(progsize)\n",
+                "else\n",
+                "    if allocstart >= $2000\n",
+                '        print "Machine-language memory is not available at $4000"\n',
+                "        end\n",
+                "    endif\n",
                 "endif\n",
                 f"maxiter = {relative_address('MAX_ITER')}\n",
                 f"numiter = {relative_address('NUM_ITER')}\n",
